@@ -1,6 +1,6 @@
 # Example: Forigate AWS Transit Gateway integration
 
-Example of integration Fortinet SDWAN and AWS Transit Gateway
+Example of integration Fortinet SDWAN and AWS Transit Gateway in a global deployment. 
 
 ## Deployment Overview
 

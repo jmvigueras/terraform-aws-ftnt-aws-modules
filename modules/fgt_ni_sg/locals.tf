@@ -3,38 +3,38 @@ locals {
   # Parse inputs
   # ------------------------------------------------------------------------------------
   # Subnet tags prefix
-  tag_mgmt    = var.subnet_tags["mgmt"]
   tag_public  = var.subnet_tags["public"]
   tag_private = var.subnet_tags["private"]
+  tag_mgmt    = var.subnet_tags["mgmt"]
   tag_ha      = var.subnet_tags["ha"]
 
   # FGT subnet list filtered by subnet tags
-  public_subnet_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in var.subnet_list :
-        subnet if strcontains(subnet["name"], v)
-      ] if strcontains(one(slice(split(".", k), 1, 2)), local.tag_public) && v != ""
+  public_subnet_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in var.subnet_list :
+      subnet if join("-", slice(split("-", subnet["name"]), 0, length(split("-", subnet["name"])) - 1)) == v
+    ] if one(slice(split(".", k), 1, 2)) == local.tag_public && v != ""
     ]
   )
-  private_subnet_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in var.subnet_list :
-        subnet if strcontains(subnet["name"], v)
-      ] if strcontains(one(slice(split(".", k), 1, 2)), local.tag_private) && v != ""
+  private_subnet_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in var.subnet_list :
+      subnet if join("-", slice(split("-", subnet["name"]), 0, length(split("-", subnet["name"])) - 1)) == v
+    ] if one(slice(split(".", k), 1, 2)) == local.tag_private && v != ""
     ]
   )
-  mgmt_subnet_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in var.subnet_list :
-        subnet if strcontains(subnet["name"], v)
-      ] if strcontains(one(slice(split(".", k), 1, 2)), local.tag_mgmt) && v != ""
+  mgmt_subnet_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in var.subnet_list :
+      subnet if join("-", slice(split("-", subnet["name"]), 0, length(split("-", subnet["name"])) - 1)) == v
+    ] if one(slice(split(".", k), 1, 2)) == local.tag_mgmt && v != ""
     ]
   )
-  ha_subnet_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in var.subnet_list :
-        subnet if strcontains(subnet["name"], v)
-      ] if strcontains(one(slice(split(".", k), 1, 2)), local.tag_ha) && v != ""
+  ha_subnet_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in var.subnet_list :
+      subnet if join("-", slice(split("-", subnet["name"]), 0, length(split("-", subnet["name"])) - 1)) == v
+    ] if one(slice(split(".", k), 1, 2)) == local.tag_ha && v != ""
     ]
   )
   # List of AZs
@@ -72,95 +72,95 @@ locals {
   # Config secondary IP if there is a FGCP cluster
   config_sec_ip = var.cluster_type == "fgcp" ? length(var.azs) == 1 ? true : false : false
   # List of maps with NI PUBLIC details
-  ni_public_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in local.public_subnet_list :
-        [for ii in range(0, var.fgt_number_peer_az) :
-          { subnet_name = subnet["name"]
-            subnet_cidr = subnet["cidr"]
-            subnet_mask = cidrnetmask(subnet["cidr"])
-            subnet_id   = subnet["id"]
-            subnet_tag  = k
-            ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            ni_sec_ip   = local.config_sec_ip ? ii == 0 ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : "" : ""
-            fgt_ip      = local.config_sec_ip ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : cidrhost(subnet["cidr"], var.cidr_host + ii)
-            fgt         = "fgt${ii + 1}"
-            sg_id       = local.sg_ids[k]
-            az          = subnet["az"]
-            az_id       = subnet["az_id"]
-            config_eip  = var.cluster_type != "fgcp" ? true : ii == 0 ? subnet["az"] == "az1" ? true : false : false
-          }
-        ] if strcontains(subnet["name"], v)
-      ] if v != ""
+  ni_public_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in local.public_subnet_list : [
+        for ii in range(0, var.fgt_number_peer_az) :
+        { subnet_name = subnet["name"]
+          subnet_cidr = subnet["cidr"]
+          subnet_mask = cidrnetmask(subnet["cidr"])
+          subnet_id   = subnet["id"]
+          subnet_tag  = k
+          ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          ni_sec_ip   = local.config_sec_ip ? ii == 0 ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : "" : ""
+          fgt_ip      = local.config_sec_ip ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : cidrhost(subnet["cidr"], var.cidr_host + ii)
+          fgt         = "fgt${ii + 1}"
+          sg_id       = local.sg_ids[k]
+          az          = subnet["az"]
+          az_id       = subnet["az_id"]
+          config_eip  = var.cluster_type != "fgcp" ? true : ii == 0 ? subnet["az"] == "az1" ? true : false : false
+        }
+      ] if one(slice(split(".", k), 1, 2)) == local.tag_public
+    ] if v != ""
     ]
   )
   # List of maps with NI MGMT details
-  ni_private_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in local.private_subnet_list :
-        [for ii in range(0, var.fgt_number_peer_az) :
-          { subnet_name = subnet["name"]
-            subnet_cidr = subnet["cidr"]
-            subnet_mask = cidrnetmask(subnet["cidr"])
-            subnet_id   = subnet["id"]
-            subnet_tag  = k
-            ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            ni_sec_ip   = local.config_sec_ip ? ii == 0 ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : "" : ""
-            fgt_ip      = local.config_sec_ip ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : cidrhost(subnet["cidr"], var.cidr_host + ii)
-            fgt         = "fgt${ii + 1}"
-            sg_id       = local.sg_ids[k]
-            az          = subnet["az"]
-            az_id       = subnet["az_id"]
-            config_eip  = false
-          }
-        ] if strcontains(subnet["name"], v)
-      ] if v != ""
+  ni_private_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in local.private_subnet_list : [
+        for ii in range(0, var.fgt_number_peer_az) :
+        { subnet_name = subnet["name"]
+          subnet_cidr = subnet["cidr"]
+          subnet_mask = cidrnetmask(subnet["cidr"])
+          subnet_id   = subnet["id"]
+          subnet_tag  = k
+          ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          ni_sec_ip   = local.config_sec_ip ? ii == 0 ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : "" : ""
+          fgt_ip      = local.config_sec_ip ? cidrhost(subnet["cidr"], local.cidr_host_floating_ip) : cidrhost(subnet["cidr"], var.cidr_host + ii)
+          fgt         = "fgt${ii + 1}"
+          sg_id       = local.sg_ids[k]
+          az          = subnet["az"]
+          az_id       = subnet["az_id"]
+          config_eip  = false
+        }
+      ] if one(slice(split(".", k), 1, 2)) == local.tag_private
+    ] if v != ""
     ]
   )
   # List of maps with NI MGMT details
-  ni_mgmt_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in local.mgmt_subnet_list :
-        [for ii in range(0, var.fgt_number_peer_az) :
-          { subnet_name = subnet["name"]
-            subnet_cidr = subnet["cidr"]
-            subnet_mask = cidrnetmask(subnet["cidr"])
-            subnet_id   = subnet["id"]
-            subnet_tag  = k
-            ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            ni_sec_ip   = ""
-            fgt_ip      = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            fgt         = "fgt${ii + 1}"
-            sg_id       = local.sg_ids[k]
-            az          = subnet["az"]
-            az_id       = subnet["az_id"]
-            config_eip  = var.config_eip_to_mgmt
-          }
-        ] if strcontains(subnet["name"], v)
-      ] if v != ""
+  ni_mgmt_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in local.mgmt_subnet_list : [
+        for ii in range(0, var.fgt_number_peer_az) :
+        { subnet_name = subnet["name"]
+          subnet_cidr = subnet["cidr"]
+          subnet_mask = cidrnetmask(subnet["cidr"])
+          subnet_id   = subnet["id"]
+          subnet_tag  = k
+          ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          ni_sec_ip   = ""
+          fgt_ip      = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          fgt         = "fgt${ii + 1}"
+          sg_id       = local.sg_ids[k]
+          az          = subnet["az"]
+          az_id       = subnet["az_id"]
+          config_eip  = var.config_eip_to_mgmt
+        }
+      ] if one(slice(split(".", k), 1, 2)) == local.tag_mgmt
+    ] if v != ""
     ]
   )
   # List of maps with NI MGMT details
-  ni_ha_list = flatten(
-    [for k, v in var.fgt_subnet_tags :
-      [for i, subnet in local.ha_subnet_list :
-        [for ii in range(0, var.fgt_number_peer_az) :
-          { subnet_name = subnet["name"]
-            subnet_cidr = subnet["cidr"]
-            subnet_mask = cidrnetmask(subnet["cidr"])
-            subnet_id   = subnet["id"]
-            subnet_tag  = k
-            ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            ni_sec_ip   = ""
-            fgt_ip      = cidrhost(subnet["cidr"], var.cidr_host + ii)
-            fgt         = "fgt${ii + 1}"
-            sg_id       = local.sg_ids[k]
-            az          = subnet["az"]
-            az_id       = subnet["az_id"]
-            config_eip  = false
-          }
-        ] if strcontains(subnet["name"], v)
-      ] if v != ""
+  ni_ha_list = flatten([
+    for k, v in var.fgt_subnet_tags : [
+      for i, subnet in local.ha_subnet_list : [
+        for ii in range(0, var.fgt_number_peer_az) :
+        { subnet_name = subnet["name"]
+          subnet_cidr = subnet["cidr"]
+          subnet_mask = cidrnetmask(subnet["cidr"])
+          subnet_id   = subnet["id"]
+          subnet_tag  = k
+          ni_ip       = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          ni_sec_ip   = ""
+          fgt_ip      = cidrhost(subnet["cidr"], var.cidr_host + ii)
+          fgt         = "fgt${ii + 1}"
+          sg_id       = local.sg_ids[k]
+          az          = subnet["az"]
+          az_id       = subnet["az_id"]
+          config_eip  = false
+        }
+      ] if one(slice(split(".", k), 1, 2)) == local.tag_ha
+    ] if v != ""
     ]
   )
   # List of maps with NI details to create aws_eip resources
@@ -219,8 +219,8 @@ locals {
   }
   # Map of FGT EIPs
   o_fgt_eips_map = {
-    for k, v in local.ni_public_list : 
-    "${v["az"]}.${v["fgt"]}.${v["subnet_tag"]}" => lookup(aws_eip.eips, "${v["az"]}.${v["fgt"]}.${v["subnet_tag"]}", { public_ip = "" }).public_ip if v["config_eip"] 
+    for k, v in local.ni_public_list :
+    "${v["az"]}.${v["fgt"]}.${v["subnet_tag"]}" => lookup(aws_eip.eips, "${v["az"]}.${v["fgt"]}.${v["subnet_tag"]}", { public_ip = "" }).public_ip if v["config_eip"]
   }
   # Map with each FGT NI IP peer AZ
   o_fgt_ips_map = {
@@ -234,7 +234,7 @@ locals {
   o_fgt_ids_map = {
     for i, v in local.fgt_peer_az :
     "${v["az"]}.${v["fgt"]}" => {
-      for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] : 
+      for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] :
       ni["tag"] => ni["id"]
     }
   }

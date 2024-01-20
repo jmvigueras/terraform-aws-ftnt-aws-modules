@@ -282,8 +282,8 @@ variable "fgcp_port" {
 
 variable "ha_members" {
   description = "Map of string with details of cluster members"
-  type = list(map(string))
-  default = []
+  type = map(list(map(string)))
+  default = {}
 }
 
 variable "auto_scale_secret" {
