@@ -30,6 +30,7 @@ data "template_file" "fgt" {
     config_fmg       = var.config_fmg ? data.template_file.config_fmg.rendered : ""
     config_faz       = var.config_faz ? data.template_file.config_faz.rendered : ""
     config_s2s       = var.config_s2s ? join("\n", data.template_file.config_s2s.*.rendered) : ""
+    config_gwlb      = var.config_gwlb ? data.template_file.config_gwlb.rendered : ""
     config_extra     = var.config_extra
   }
 }
@@ -217,7 +218,6 @@ data "template_file" "config_tgw_gre" {
     interface_name   = lookup(var.tgw_gre_peer, "gre_name", "gre-to-tgw")
     bgp_asn          = lookup(var.tgw_gre_peer, "tgw_bgp_asn", "65011")
     port             = local.map_type_port["private"]
-    port_gw          = local.map_type_ip["private"]
     tunnel_local_ip  = local.map_type_ip["private"]
     tunnel_remote_ip = lookup(var.tgw_gre_peer, "tgw_ip", "")
     local_ip         = cidrhost(lookup(var.tgw_gre_peer, "inside_cidr", "169.254.101.0/29"), 1)
@@ -265,6 +265,15 @@ data "template_file" "config_auto_scale" {
     master_secret = var.auto_scale_secret
     master_ip     = local.fgsp_master_ip == null ? "" : local.fgsp_master_ip
   }
+}
+
+data "template_file" "config_gwlb" {
+  template = templatefile("${path.module}/templates/aws_gwlb_geneve.conf", {
+    geneve_int_name  = "geneve-${local.map_type_port["private"]}"
+    gwlbe_ip         = var.gwlbe_ip
+    port             = local.map_type_port["private"]
+    inspection_cidrs = var.gwlb_inspection_cidrs
+  })
 }
 
 #------------------------------------------------------------------------------------

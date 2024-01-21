@@ -1,19 +1,19 @@
 output "fgt_config" {
   description = "FortiGate configuration output"
-  sensitive = true
-  value = data.template_file.fgt.rendered
+  sensitive   = true
+  value       = data.template_file.fgt.rendered
 }
 
 output "vpn_psk" {
   description = "VPN Pre-Shared Key (PSK)"
-  sensitive = true
-  value     = var.hub[0]["vpn_psk"] == "" ? random_string.vpn_psk.result : var.hub[0]["vpn_psk"]
+  sensitive   = true
+  value       = var.hub[0]["vpn_psk"] == "" ? random_string.vpn_psk.result : var.hub[0]["vpn_psk"]
 }
 
 output "api_key" {
   description = "API Key for FortiGate instance"
-  sensitive = true
-  value     = var.api_key == null ? random_string.api_key.result : var.api_key
+  sensitive   = true
+  value       = var.api_key == null ? random_string.api_key.result : var.api_key
 }
 
 

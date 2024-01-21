@@ -4,14 +4,15 @@
 #---------------------------------------------------------------------------
 // Create VPC endpoints GWLB
 resource "aws_vpc_endpoint" "gwlb_endpoints" {
-  count             = length(var.subnet_ids)
+  for_each = var.subnet_ids
+
   service_name      = var.gwlb_service_name
-  subnet_ids        = [var.subnet_ids[count.index]]
+  subnet_ids        = [each.value]
   vpc_endpoint_type = "GatewayLoadBalancer"
   vpc_id            = var.vpc_id
 
   tags = merge(
-    { Name = "${var.prefix}-gwlb-endpoint-az${count.index + 1}"},
+    { Name = "${var.prefix}-gwlbe-${each.key}" },
     var.tags
   )
 }

@@ -14,19 +14,17 @@ variable "tags" {
 
 variable "subnet_ids" {
   description = "List of subnet IDs that NLB will use"
-  type    = list(string)
-  default = null
+  type        = map(string)
+  default     = {}
 }
 
 variable "vpc_id" {
   description = "VPC ID where targets are deployed"
-  type    = string
-  default = null
+  type        = string
 }
 
 variable "gwlb_service_name" {
   description = "GWLB service name"
-  type    = string
-  default = null
+  type        = string
 }
 

@@ -9,7 +9,7 @@
 module "fgt_vpc" {
   source = "../../modules/vpc"
 
-  prefix     = "${local.prefix}-eu-hub"
+  prefix     = "${local.prefix}-fgsp"
   admin_cidr = local.admin_cidr
   region     = local.region
   azs        = local.azs
@@ -23,7 +23,7 @@ module "fgt_vpc" {
 module "fgt_nis" {
   source = "../../modules/fgt_ni_sg"
 
-  prefix = "${local.prefix}-eu-hub"
+  prefix = "${local.prefix}-fgsp"
   azs    = local.azs
 
   vpc_id      = module.fgt_vpc.vpc_id
@@ -60,7 +60,7 @@ module "fgt_config" {
 module "fgt" {
   source = "../../modules/fgt"
 
-  prefix        = "${local.prefix}-eu-hub"
+  prefix        = "${local.prefix}-fgsp"
   region        = local.region
   instance_type = local.instance_type
   keypair       = trimspace(aws_key_pair.keypair.key_name)

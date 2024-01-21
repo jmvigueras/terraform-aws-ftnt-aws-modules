@@ -209,6 +209,7 @@ No modules.
 | [template_file.config_fgsp_peers](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_fmg](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_fw_policy](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [template_file.config_gwlb](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_interfaces](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_route](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_s2s](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
@@ -238,6 +239,7 @@ No modules.
 | <a name="input_config_fgsp"></a> [config\_fgsp](#input\_config\_fgsp) | Boolean varible to configure FortiGate Cluster type FGSP | `bool` | `false` | no |
 | <a name="input_config_fmg"></a> [config\_fmg](#input\_config\_fmg) | Boolean varible to configure FortiManger | `bool` | `false` | no |
 | <a name="input_config_fw_policy"></a> [config\_fw\_policy](#input\_config\_fw\_policy) | Boolean variable to configure basic allow all policies | `bool` | `true` | no |
+| <a name="input_config_gwlb"></a> [config\_gwlb](#input\_config\_gwlb) | Boolean varible to configure GENEVE tunnels to a AWS GWLB | `bool` | `false` | no |
 | <a name="input_config_hub"></a> [config\_hub](#input\_config\_hub) | Boolean varible to configure fortigate as a SDWAN HUB | `bool` | `false` | no |
 | <a name="input_config_s2s"></a> [config\_s2s](#input\_config\_s2s) | Boolean varible to configure IPSEC site to site connections | `bool` | `false` | no |
 | <a name="input_config_spoke"></a> [config\_spoke](#input\_config\_spoke) | Boolean varible to configure fortigate as SDWAN spoke | `bool` | `false` | no |
@@ -256,6 +258,8 @@ No modules.
 | <a name="input_fmg_ip"></a> [fmg\_ip](#input\_fmg\_ip) | FortiManager IP | `string` | `""` | no |
 | <a name="input_fmg_sn"></a> [fmg\_sn](#input\_fmg\_sn) | FortiManager SN | `string` | `""` | no |
 | <a name="input_fortiflex_token"></a> [fortiflex\_token](#input\_fortiflex\_token) | FortiFlex token | `string` | `""` | no |
+| <a name="input_gwlb_inspection_cidrs"></a> [gwlb\_inspection\_cidrs](#input\_gwlb\_inspection\_cidrs) | List of inspection CIRDS, used to create policy route maps | `list(string)` | <pre>[<br>  "192.168.0.0/16",<br>  "10.0.0.0/8",<br>  "172.16.0.0/12"<br>]</pre> | no |
+| <a name="input_gwlbe_ip"></a> [gwlbe\_ip](#input\_gwlbe\_ip) | GWLB IP to create GENEVE tunnel | `string` | `""` | no |
 | <a name="input_ha_master_id"></a> [ha\_master\_id](#input\_ha\_master\_id) | Name of fortigate instance acting as master of the cluster | `string` | `"az1.fgt1"` | no |
 | <a name="input_ha_members"></a> [ha\_members](#input\_ha\_members) | Map of string with details of cluster members | `map(list(map(string)))` | `{}` | no |
 | <a name="input_hub"></a> [hub](#input\_hub) | Map of string with details to create VPN HUB | `list(map(string))` | <pre>[<br>  {<br>    "bgp_asn_hub": "65000",<br>    "bgp_asn_spoke": "65000",<br>    "cidr": "172.30.0.0/24",<br>    "dpd_retryinterval": "5",<br>    "id": "HUB",<br>    "ike_version": "2",<br>    "mode_cfg": true,<br>    "network_id": "1",<br>    "vpn_cidr": "10.1.1.0/24",<br>    "vpn_port": "public",<br>    "vpn_psk": "secret-key-123"<br>  }<br>]</pre> | no |
