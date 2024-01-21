@@ -37,7 +37,7 @@ variable "private_ip" {
 }
 
 variable "instance_type" {
-  description = "Server instance type"
+  description = "FortiAnalyzer instance type"
   type    = string
   default = "m5.xlarge"
 }
@@ -100,12 +100,6 @@ variable "faz_build" {
   description = "FAZ version"
   type    = string
   default = "build1460"
-}
-
-variable "instance_type" {
-  description = "Provide the instance type for the FortiGate instances"
-  type        = string
-  default     = "m5.xlarge"
 }
 
 variable "rsa-public-key" {

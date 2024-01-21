@@ -12,15 +12,12 @@ Create FortiAnalyzer instance.
 ```hcl
 locals {
   prefix      = "test"
-
-  fgt_ni_list   = module.fgt_nis.fgt_ni_list
-  fgt_config    = {for k, v in module.fgt_config.fgt_config : k => v.fgt_config}
 }
 
 module "example" {
   source = "../faz"
 
-  prefix          = "${local.prefix}-spoke"
+  prefix          = "${local.prefix}"
   keypair         = aws_key_pair.eu_keypair.key_name
   subnet_id       = "subnet-xxx"
   subnet_cidr     = "10.1.0.0/24"
