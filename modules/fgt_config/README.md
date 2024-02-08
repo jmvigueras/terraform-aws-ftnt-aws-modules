@@ -22,7 +22,7 @@ locals {
       cidr              = "172.20.0.0/24"
       ike_version       = "2"  // if skipped "2"
       network_id        = "1"  // if skipped "1"
-      dpd_retryinterval = "5"  // if skipped "5"
+      dpd_retryinterval = "10"  // if skipped "10"
       mode_cfg          = true
       vpn_port          = "public"
     }

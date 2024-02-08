@@ -46,3 +46,21 @@ variable "backend_interval" {
   type        = number
   default     = 10
 }
+
+variable "slow_start" {
+  description = "Amount time for targets to warm up before the load balancer sends them a full share of requests"
+  type        = number
+  default     = 60
+}
+
+variable "deregistration_delay" {
+  description = "Amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused"
+  type        = number
+  default     = 60
+}
+
+variable "target_failover" {
+  description = "Indicates how the GWLB handles existing flows when a target is deregistered or unhealthy, either rebalance or no_rebalance"
+  type        = string
+  default     = "rebalance"
+}

@@ -15,7 +15,7 @@ locals {
 }
 
 module "example" {
-  source = "../faz"
+  source = "../fmg"
 
   prefix          = "${local.prefix}"
   keypair         = aws_key_pair.eu_keypair.key_name
@@ -49,25 +49,25 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_eip.eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
-| [aws_instance.faz](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
+| [aws_instance.fmg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_network_interface.ni](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface) | resource |
-| [aws_ami_ids.faz_amis_byol](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
-| [aws_ami_ids.faz_amis_payg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
-| [template_file.faz_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [aws_ami_ids.fmg_amis_byol](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
+| [aws_ami_ids.fmg_amis_payg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
+| [template_file.fmg_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | FAZ username used for API key | `string` | `"admin"` | no |
+| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | fmg username used for API key | `string` | `"admin"` | no |
 | <a name="input_cidr_host"></a> [cidr\_host](#input\_cidr\_host) | First IP number of the network to assign | `number` | `10` | no |
 | <a name="input_config_eip"></a> [config\_eip](#input\_config\_eip) | Boolean to enable/disable EIP configuration | `bool` | `true` | no |
-| <a name="input_faz_build"></a> [faz\_build](#input\_faz\_build) | FAZ version | `string` | `"build1460"` | no |
-| <a name="input_faz_extra_config"></a> [faz\_extra\_config](#input\_faz\_extra\_config) | Extra config to add to bootstrap user-data | `string` | `""` | no |
+| <a name="input_fmg_build"></a> [fmg\_build](#input\_fmg\_build) | fmg version | `string` | `"build1460"` | no |
+| <a name="input_fmg_extra_config"></a> [fmg\_extra\_config](#input\_fmg\_extra\_config) | Extra config to add to bootstrap user-data | `string` | `""` | no |
 | <a name="input_iam_profile"></a> [iam\_profile](#input\_iam\_profile) | IAM profile to assing to the instance | `string` | `null` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | FortiAnalyzer instance type | `string` | `"m5.xlarge"` | no |
 | <a name="input_keypair"></a> [keypair](#input\_keypair) | AWS key pair name | `string` | `null` | no |
-| <a name="input_license_file"></a> [license\_file](#input\_license\_file) | License file path | `string` | `"./licenses/licenseFAZ.lic"` | no |
+| <a name="input_license_file"></a> [license\_file](#input\_license\_file) | License file path | `string` | `"./licenses/licensefmg.lic"` | no |
 | <a name="input_license_type"></a> [license\_type](#input\_license\_type) | License Type to create FortiGate-VM | `string` | `"payg"` | no |
 | <a name="input_ni_id"></a> [ni\_id](#input\_ni\_id) | Network Interface ID used if provided | `string` | `null` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
@@ -84,10 +84,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_faz"></a> [faz](#output\_faz) | FortiAnalyzer details |
-| <a name="output_id"></a> [id](#output\_id) | FortiAnalyzer instance ID |
-| <a name="output_private_ip"></a> [private\_ip](#output\_private\_ip) | FortiAnalyzer private IP |
-| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | FortiAnalyzer public IP |
+| <a name="output_fmg"></a> [fmg](#output\_fmg) | FortiManager details |
+| <a name="output_id"></a> [id](#output\_id) | FortiManager instance ID |
+| <a name="output_private_ip"></a> [private\_ip](#output\_private\_ip) | FortiManager private IP |
+| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | FortiManager public IP |
 <!-- END_TF_DOCS -->
 
 ## Support

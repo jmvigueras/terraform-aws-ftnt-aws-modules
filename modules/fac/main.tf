@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------------------------------
-# FAZ
+# fac
 #-----------------------------------------------------------------------------------------------------
 # Create Network interface
 # Create EIP public NI
@@ -31,12 +31,13 @@ resource "aws_network_interface" "ni" {
 }
 
 # Create the instance FGT AZ1 Active
-resource "aws_instance" "faz" {
-  ami               = var.license_type == "byol" ? data.aws_ami_ids.faz_amis_byol.ids[0] : data.aws_ami_ids.faz_amis_payg.ids[0]
-  instance_type     = var.instance_type
-  key_name          = var.keypair
+resource "aws_instance" "fac" {
+  //ami         = var.license_type == "byol" ? data.aws_ami_ids.fac_amis_byol.ids[0] : data.aws_ami_ids.fac_amis_payg.ids[0]
+  ami           = var.fac_ami_id[data.aws_region.current.name]
+  instance_type = var.instance_type
+  key_name      = var.keypair
   //iam_instance_profile = null
-  user_data         = data.template_file.faz_config.rendered
+  //user_data = data.template_file.fac_config.rendered
 
   metadata_options {
     http_endpoint = "enabled"
@@ -53,38 +54,19 @@ resource "aws_instance" "faz" {
   }
 
   tags = merge(
-    { Name = "${var.prefix}-faz" },
+    { Name = "${var.prefix}-fac" },
     var.tags
   )
 }
 
-data "template_file" "faz_config" {
-  template = file("${path.module}/templates/faz.conf")
+data "template_file" "fac_config" {
+  template = file("${path.module}/templates/fac.conf")
   vars = {
-    faz_id           = "${var.prefix}-faz"
+    fac_id           = "${var.prefix}-fac"
     type             = var.license_type
     license_file     = var.license_file
     admin_username   = var.admin_username
-    rsa-public-key   = trimspace(var.rsa-public-key)
-    faz_extra-config = var.faz_extra_config
-  }
-}
-
-# Get the last AMI Images from AWS MarektPlace FGT PAYG
-data "aws_ami_ids" "faz_amis_payg" {
-  owners = ["aws-marketplace"]
-
-  filter {
-    name   = "name"
-    values = ["FortiAnalyzer-VM64-AWSONDEMAND ${var.faz_build}*"]
-  }
-}
-
-data "aws_ami_ids" "faz_amis_byol" {
-  owners = ["aws-marketplace"]
-
-  filter {
-    name   = "name"
-    values = ["FortiAnalyzer-VM64-AWS ${var.faz_build}*"]
+    rsa-public-key   = var.rsa-public-key != null ? trimspace(var.rsa-public-key) : ""
+    fac_extra-config = var.fac_extra_config
   }
 }

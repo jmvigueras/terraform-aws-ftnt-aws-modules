@@ -85,19 +85,19 @@ variable "iam_profile" {
 }
 
 variable "admin_username" {
-  description = "FAZ username used for API key"
+  description = "fmg username used for API key"
   type    = string
   default = "admin"
 }
 
-variable "faz_extra_config" {
+variable "fmg_extra_config" {
   description = "Extra config to add to bootstrap user-data"
   type    = string
   default = ""
 }
 
-variable "faz_build" {
-  description = "FAZ version"
+variable "fmg_build" {
+  description = "fmg version"
   type    = string
   default = "build1460"
 }
@@ -117,5 +117,5 @@ variable "license_type" {
 variable "license_file" {
   description = "License file path"
   type    = string
-  default = "./licenses/licenseFAZ.lic"
+  default = "./licenses/licensefmg.lic"
 }

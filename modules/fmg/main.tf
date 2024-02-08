@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------------------------------
-# FAZ
+# fmg
 #-----------------------------------------------------------------------------------------------------
 # Create Network interface
 # Create EIP public NI
@@ -31,12 +31,12 @@ resource "aws_network_interface" "ni" {
 }
 
 # Create the instance FGT AZ1 Active
-resource "aws_instance" "faz" {
-  ami               = var.license_type == "byol" ? data.aws_ami_ids.faz_amis_byol.ids[0] : data.aws_ami_ids.faz_amis_payg.ids[0]
+resource "aws_instance" "fmg" {
+  ami               = var.license_type == "byol" ? data.aws_ami_ids.fmg_amis_byol.ids[0] : data.aws_ami_ids.fmg_amis_payg.ids[0]
   instance_type     = var.instance_type
   key_name          = var.keypair
   //iam_instance_profile = null
-  user_data         = data.template_file.faz_config.rendered
+  user_data         = data.template_file.fmg_config.rendered
 
   metadata_options {
     http_endpoint = "enabled"
@@ -53,38 +53,38 @@ resource "aws_instance" "faz" {
   }
 
   tags = merge(
-    { Name = "${var.prefix}-faz" },
+    { Name = "${var.prefix}-fmg" },
     var.tags
   )
 }
 
-data "template_file" "faz_config" {
-  template = file("${path.module}/templates/faz.conf")
+data "template_file" "fmg_config" {
+  template = file("${path.module}/templates/fmg.conf")
   vars = {
-    faz_id           = "${var.prefix}-faz"
+    fmg_id           = "${var.prefix}-fmg"
     type             = var.license_type
     license_file     = var.license_file
     admin_username   = var.admin_username
     rsa-public-key   = trimspace(var.rsa-public-key)
-    faz_extra-config = var.faz_extra_config
+    fmg_extra-config = var.fmg_extra_config
   }
 }
 
 # Get the last AMI Images from AWS MarektPlace FGT PAYG
-data "aws_ami_ids" "faz_amis_payg" {
+data "aws_ami_ids" "fmg_amis_payg" {
   owners = ["aws-marketplace"]
 
   filter {
     name   = "name"
-    values = ["FortiAnalyzer-VM64-AWSONDEMAND ${var.faz_build}*"]
+    values = ["FortiManager-VM64-AWSONDEMAND ${var.fmg_build}*"]
   }
 }
 
-data "aws_ami_ids" "faz_amis_byol" {
+data "aws_ami_ids" "fmg_amis_byol" {
   owners = ["aws-marketplace"]
 
   filter {
     name   = "name"
-    values = ["FortiAnalyzer-VM64-AWS ${var.faz_build}*"]
+    values = ["FortiManager-VM64-AWS ${var.fmg_build}*"]
   }
 }

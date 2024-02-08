@@ -1,8 +1,8 @@
-# Terraform Module: FortiAnalyzer
+# Terraform Module: FortiWEB
 
 ## Description
 
-Create FortiAnalyzer instance.
+Create FortiWEB instance.
 
 ## Usage
 
@@ -15,10 +15,12 @@ locals {
 }
 
 module "example" {
-  source = "../faz"
+  source = "../fwb"
 
   prefix          = "${local.prefix}"
-  keypair         = aws_key_pair.eu_keypair.key_name
+  keypair         = aws_key_pair.keypair.key_name
+  instance_type   = "c4.2xlarge"
+
   subnet_id       = "subnet-xxx"
   subnet_cidr     = "10.1.0.0/24"
   security_groups = ["sg-xxx"]
@@ -49,25 +51,26 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_eip.eip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
-| [aws_instance.faz](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
+| [aws_instance.fwb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_network_interface.ni](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface) | resource |
-| [aws_ami_ids.faz_amis_byol](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
-| [aws_ami_ids.faz_amis_payg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
-| [template_file.faz_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [aws_ami_ids.fwb_amis_byol](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
+| [aws_ami_ids.fwb_amis_payg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami_ids) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [template_file.fwb_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | FAZ username used for API key | `string` | `"admin"` | no |
+| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | fac username used for API key | `string` | `"admin"` | no |
 | <a name="input_cidr_host"></a> [cidr\_host](#input\_cidr\_host) | First IP number of the network to assign | `number` | `10` | no |
 | <a name="input_config_eip"></a> [config\_eip](#input\_config\_eip) | Boolean to enable/disable EIP configuration | `bool` | `true` | no |
-| <a name="input_faz_build"></a> [faz\_build](#input\_faz\_build) | FAZ version | `string` | `"build1460"` | no |
-| <a name="input_faz_extra_config"></a> [faz\_extra\_config](#input\_faz\_extra\_config) | Extra config to add to bootstrap user-data | `string` | `""` | no |
+| <a name="input_fwb_extra_config"></a> [fwb\_extra\_config](#input\_fwb\_extra\_config) | Extra config to add to bootstrap user-data | `string` | `""` | no |
+| <a name="input_fwb_version"></a> [fwb\_version](#input\_fwb\_version) | FWB version | `string` | `"7.0.8"` | no |
 | <a name="input_iam_profile"></a> [iam\_profile](#input\_iam\_profile) | IAM profile to assing to the instance | `string` | `null` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | FortiAnalyzer instance type | `string` | `"m5.xlarge"` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | FortiAnalyzer instance type | `string` | `"c4.xlarge"` | no |
 | <a name="input_keypair"></a> [keypair](#input\_keypair) | AWS key pair name | `string` | `null` | no |
-| <a name="input_license_file"></a> [license\_file](#input\_license\_file) | License file path | `string` | `"./licenses/licenseFAZ.lic"` | no |
+| <a name="input_license_file"></a> [license\_file](#input\_license\_file) | License file path | `string` | `"./licenses/licenseFAC.lic"` | no |
 | <a name="input_license_type"></a> [license\_type](#input\_license\_type) | License Type to create FortiGate-VM | `string` | `"payg"` | no |
 | <a name="input_ni_id"></a> [ni\_id](#input\_ni\_id) | Network Interface ID used if provided | `string` | `null` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
@@ -84,10 +87,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_faz"></a> [faz](#output\_faz) | FortiAnalyzer details |
-| <a name="output_id"></a> [id](#output\_id) | FortiAnalyzer instance ID |
-| <a name="output_private_ip"></a> [private\_ip](#output\_private\_ip) | FortiAnalyzer private IP |
-| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | FortiAnalyzer public IP |
+| <a name="output_details"></a> [details](#output\_details) | FortiWEB details |
+| <a name="output_id"></a> [id](#output\_id) | FortiWEB instance ID |
+| <a name="output_private_ip"></a> [private\_ip](#output\_private\_ip) | FortiWEB private IP |
+| <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | FortiWEB public IP |
 <!-- END_TF_DOCS -->
 
 ## Support

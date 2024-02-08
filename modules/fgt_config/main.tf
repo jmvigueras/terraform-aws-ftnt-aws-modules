@@ -108,9 +108,11 @@ data "template_file" "config_vpn" {
     hub_remote_ip         = cidrhost(cidrsubnet(var.hub[count.index]["vpn_cidr"], 1, 0), 2)
     network_id            = lookup(var.hub[count.index], "network_id", "1")
     ike_version           = lookup(var.hub[count.index], "ike_version", "2")
-    dpd_retryinterval     = lookup(var.hub[count.index], "dpd_retryinterval", "5")
+    dpd_retryinterval     = lookup(var.hub[count.index], "dpd_retryinterval", "10")
     local_id              = var.hub[count.index]["id"]
     local_network         = var.hub[count.index]["cidr"]
+    local_gw              = lookup(var.hub[count.index], "local_gw", "")
+    fgsp_sync             = var.config_fgsp
     mode_cfg              = lookup(var.hub[count.index], "mode_cfg", true)
     site_private_ip_start = cidrhost(cidrsubnet(var.hub[count.index]["vpn_cidr"], 1, 0), 3)
     site_private_ip_end   = cidrhost(cidrsubnet(var.hub[count.index]["vpn_cidr"], 1, 0), -2)
