@@ -51,5 +51,5 @@ variable "license_type" {
 variable "fgt_build" {
   description = "Fortigate VM version (default build1575 -> FortiOS 7.2.6)"
   type    = string
-  default = "build1575"
+  default = "build1577"
 }

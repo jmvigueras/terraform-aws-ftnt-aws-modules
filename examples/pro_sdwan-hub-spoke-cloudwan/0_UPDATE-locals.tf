@@ -19,7 +19,7 @@ locals {
   admin_cidr = "${chomp(data.http.my-public-ip.response_body)}/32"
   //admin_cidr    = "0.0.0.0/0"
   instance_type = "c6i.large"
-  fgt_build     = "build1575"
+  fgt_build     = "build1577"
   license_type  = "payg"
 
   route53_zone_name = "fortidemoscloud.com"
