@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.0.6 - 2024-04-22
+- Added new module FortiADC VM
+- Update fgt_config SDWAN templates
+
+## v0.0.5 - 2024-01-21
+- Cosmetic changes
+
+## v0.0.4 - 2024-01-21
+- Cosmetic changes
+
 ## v0.0.3 - 2024-01-21
 - Fix issue duplicate variable module faz
 

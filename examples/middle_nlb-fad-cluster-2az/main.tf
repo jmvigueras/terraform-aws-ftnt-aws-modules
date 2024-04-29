@@ -1,46 +1,47 @@
 #------------------------------------------------------------------------------
 # Create FGT cluster:
 # - VPC
-# - fwb instances
+# - FAC instances
 #------------------------------------------------------------------------------
 # Create VPC for hub EU
-module "fwb_vpc" {
+module "fad_vpc" {
   source = "../../modules/vpc"
 
-  prefix     = "${local.prefix}-fwb"
+  prefix     = "${local.prefix}-fad"
   admin_cidr = local.admin_cidr
   region     = local.region
   azs        = local.azs
 
-  cidr = local.fwb_vpc_cidr
+  cidr = local.fad_vpc_cidr
 
-  public_subnet_names  = local.fwb_public_subnet_names
-  private_subnet_names = local.fwb_private_subnet_names
+  public_subnet_names  = local.fad_public_subnet_names
+  private_subnet_names = local.fad_private_subnet_names
 }
-# Create fwb VM
-module "fwb" {
-  source = "../../modules/fwb"
+# Create FAC VM
+module "fad" {
+  source = "../../modules/fad"
 
-  for_each = { for i, pair in setproduct([for i, k in local.azs : "az${i + 1}"], range(0, local.fwb_number_peer_az)) : "${pair[0]}.fwb${pair[1] + 1}" => pair[0] }
+  for_each = { for i, pair in setproduct([for i, k in local.azs : "az${i + 1}"], range(0, local.fad_number_peer_az)) : "${pair[0]}.fac${pair[1]}" => pair[0] }
 
-  prefix        = "${local.prefix}-${each.key}"
-  keypair       = aws_key_pair.keypair.key_name
-  instance_type = local.fwb_instance_type
+  prefix  = local.prefix
+  keypair = aws_key_pair.keypair.key_name
 
-  subnet_id       = module.fwb_vpc.subnet_ids[each.value]["vm"]
-  subnet_cidr     = module.fwb_vpc.subnet_cidrs[each.value]["vm"]
-  security_groups = [module.fwb_vpc.sg_ids["default"]]
+  subnet_id       = module.fad_vpc.subnet_ids[each.value]["vm"]
+  subnet_cidr     = module.fad_vpc.subnet_cidrs[each.value]["vm"]
+  security_groups = [module.fad_vpc.sg_ids["default"]]
 
-  license_type = local.fwb_license_type
+  fad_btw       = local.fad_btw
+  instance_type = local.fad_instance_type
+  license_type  = local.fad_license_type
 }
 # Create NLB
 module "nlb" {
   source = "../../modules/nlb"
 
   prefix     = local.prefix
-  subnet_ids = [for i, k in module.fwb_vpc.subnet_ids : k["vm"]]
-  vpc_id     = module.fwb_vpc.vpc_id
-  fgt_ips    = [for k, v in module.fwb : v.private_ip]
+  subnet_ids = [for i, k in module.fad_vpc.subnet_ids : k["vm"]]
+  vpc_id     = module.fad_vpc.vpc_id
+  fgt_ips    = [for k, v in module.fad : v.private_ip]
 
   listeners = {
     "80"  = "TCP"

@@ -14,7 +14,10 @@ module "example" {
   tags              = {
     project = "terraform"
   }
-  subnet_ids          = ["subnet-xxx", "subnet-xxx"]
+  subnet_ids          = {
+    "gwlb-az1" = "subnet-xxx", 
+    "gwlb-az2" = "subnet-xxx"
+  }
   vpc_id              = "vpc-xxx"
   gwlb_service_name   = "com.amazonaws.vpce.eu-xxx"
 }
