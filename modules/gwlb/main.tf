@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "gwlb_target_group" {
   target_type = "ip"
   vpc_id      = var.vpc_id
 
-  slow_start           = var.slow_start
+  //slow_start           = var.slow_start
   deregistration_delay = var.deregistration_delay
 
   health_check {
