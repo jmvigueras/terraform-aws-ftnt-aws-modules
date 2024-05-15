@@ -10,6 +10,12 @@ variable "admin_cidr" {
   default = "0.0.0.0/0"
 }
 
+variable "destination_cidr_block" {
+  description = "Default destination block of created new routes"
+  type    = string
+  default = "0.0.0.0/0"
+}
+
 variable "tgw_rt_ids" {
   description = "List of Route Tables ID to add private routes to a TGW"
   type    = map(string)
