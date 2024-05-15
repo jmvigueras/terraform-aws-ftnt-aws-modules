@@ -38,11 +38,12 @@ resource "aws_instance" "fmail" {
   //iam_instance_profile = null
   //user_data = data.template_file.fmail_config.rendered
 
+  /*
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
-
+  */
   root_block_device {
     encrypted = true
   }
