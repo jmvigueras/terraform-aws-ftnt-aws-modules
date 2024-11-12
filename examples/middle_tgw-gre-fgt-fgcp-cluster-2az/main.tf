@@ -54,7 +54,19 @@ module "fgt_config" {
   fgt_id     = each.key
   ha_members = module.fgt_nis.fgt_ports_config
 
-  static_route_cidrs = [local.fgt_vpc_cidr] //necessary routes to stablish BGP peerings and bastion connection
+  bgp_asn_default = local.fgt_bgp_asn
+
+  config_tgw_gre = true
+  tgw_gre_peer = {
+    tgw_ip        = one([for i, v in local.tgw_peers : v["tgw_ip"] if v["id"] == each.key])
+    inside_cidr   = one([for i, v in local.tgw_peers : v["inside_cidr"] if v["id"] == each.key])
+    tgw_bgp_asn   = local.tgw_bgp_asn
+    route_map_out = ""
+    route_map_in  = ""
+    gre_name      = "gre-to-tgw"
+  }
+
+  static_route_cidrs = [local.fgt_vpc_cidr, local.tgw_cidr] //necessary routes to stablish BGP peerings and bastion connection
 }
 # Create FGT for hub EU
 module "fgt" {
@@ -86,28 +98,63 @@ module "tgw_attachment" {
 
   prefix = local.prefix
 
-  vpc_id             = module.fgt_vpc.vpc_id
-  tgw_id             = module.tgw.tgw_id
-  tgw_subnet_ids     = [module.fgt_vpc.subnet_ids["az1"]["tgw"]]
+  vpc_id         = module.fgt_vpc.vpc_id
+  tgw_id         = module.tgw.tgw_id
+  tgw_subnet_ids = [module.fgt_vpc.subnet_ids["az1"]["tgw"]]
 
   default_rt_association = true
   appliance_mode_support = "enable"
 
   tags = local.tags
 }
+# Create TGW attachment connect
+locals {
+  tgw_peers = [
+    { "inside_cidr" = "169.254.101.0/29",
+      "tgw_ip"      = cidrhost(local.tgw_cidr, 10),
+      "id"          = "az1.fgt1",
+      "fgt_ip"      = module.fgt_nis.fgt_ips_map["az1.fgt1"]["port2.private"],
+      "fgt_bgp_asn" = local.fgt_bgp_asn
+    },
+    { "inside_cidr" = "169.254.102.0/29",
+      "tgw_ip"      = cidrhost(local.tgw_cidr, 11),
+      "id"          = "az2.fgt1",
+      "fgt_ip"      = module.fgt_nis.fgt_ips_map["az2.fgt1"]["port2.private"],
+      "fgt_bgp_asn" = local.fgt_bgp_asn
+    }
+  ]
+}
+module "tgw_attachment_connect" {
+  source = "../../modules/tgw_connect"
+
+  prefix = local.prefix
+
+  vpc_attachment_id = module.tgw_attachment.id
+  tgw_id            = module.tgw.tgw_id
+
+  rt_association_id  = module.tgw.rt_post_inspection_id
+  rt_propagation_ids = [module.tgw.rt_pre_inspection_id]
+
+  peers = local.tgw_peers
+
+  tags = local.tags
+}
+
+
+
 #------------------------------------------------------------------------------
 # Update VPC routes
 #------------------------------------------------------------------------------
 # Create TGW endpoint subnet RT 0.0.0.0/0 to point to Fortigate private NI
 module "ns_tgw_vpc_routes_to_fgt_ni" {
-  source  = "../../modules/vpc_routes"
+  source = "../../modules/vpc_routes"
 
   ni_id     = module.fgt_nis.fgt_ids_map["az1.fgt1"]["port2.private"]
   ni_rt_ids = local.ni_rt_ids
 }
 # Create Fortigate private subnet RT 0.0.0.0/0 to point to TGW
 module "ns_fgt_private_routes_to_tgw" {
-  source  = "../../modules/vpc_routes"
+  source = "../../modules/vpc_routes"
 
   tgw_id     = module.tgw.tgw_id
   tgw_rt_ids = local.tgw_rt_ids
@@ -127,7 +174,6 @@ locals {
     "${pair[0]}-${pair[1]}" => module.fgt_vpc.rt_ids[pair[1]][pair[0]]
   }
 }
-
 
 #------------------------------------------------------------------------------
 # General resources

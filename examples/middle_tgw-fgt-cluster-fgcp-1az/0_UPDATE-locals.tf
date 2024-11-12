@@ -16,8 +16,8 @@ locals {
   azs    = ["eu-west-1a"] //Select AZs to deploy
 
   admin_port = "8443"
-  admin_cidr = "${chomp(data.http.my-public-ip.response_body)}/32"
-  //admin_cidr    = "0.0.0.0/0"
+  //admin_cidr = "<customer-public-cidr>" #CIDR to be configured at SG for Management and Fortigate Trusted hosts
+  admin_cidr    = "0.0.0.0/0"
   instance_type = "c6i.large"
   fgt_build     = "build1577"
   license_type  = "payg"

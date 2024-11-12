@@ -6,21 +6,23 @@ locals {
   #-----------------------------------------------------------------------------------------------------
   # General variables
   #-----------------------------------------------------------------------------------------------------
-  prefix = "fgt-cluster"
+  prefix = "fgt-ha-tgw-gre"
 
   tags = {
     Project = "ftnt_modules_aws"
   }
 
   region = "eu-west-1"
-  azs    = ["eu-west-1a","eu-west-1b"] //Select AZs to deploy
+  azs    = ["eu-west-1a", "eu-west-1b"] //Select AZs to deploy
 
   admin_port = "8443"
-  admin_cidr = "${chomp(data.http.my-public-ip.response_body)}/32"
-  //admin_cidr    = "0.0.0.0/0"
+  //admin_cidr = "<customer-public-cidr>" #CIDR to be configured at SG for Management and Fortigate Trusted hosts
+  admin_cidr    = "0.0.0.0/0"
   instance_type = "c6i.large"
-  fgt_build     = "build2702"
+  fgt_build     = "build1639"
   license_type  = "payg"
+
+  fgt_bgp_asn = "65000"
 
   fgt_number_peer_az = 1
   fgt_cluster_type   = "fgcp" // choose type of cluster either fgsp or fgcp  
@@ -46,9 +48,13 @@ locals {
 
   # VPC - list of public and private subnet names
   public_subnet_names  = [local.fgt_subnet_tags["port1.public"], local.fgt_subnet_tags["port3.mgmt"], "bastion"]
-  private_subnet_names = [local.fgt_subnet_tags["port2.private"], local.fgt_subnet_tags["port4.ha-sync"], "tgw", "gwlb"]
+  private_subnet_names = [local.fgt_subnet_tags["port2.private"], local.fgt_subnet_tags["port4.ha-sync"], "tgw"]
 
   # VPC - CIDR
   fgt_vpc_cidr = "10.1.0.0/24"
+
+  # TGW - CIDR
+  tgw_cidr    = "10.1.10.0/24"
+  tgw_bgp_asn = "65002"
 
 }
