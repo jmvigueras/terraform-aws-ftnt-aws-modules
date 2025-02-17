@@ -14,6 +14,48 @@ output "fgt" {
   }
 }
 
+output "subnet_ids" {
+  value = module.fgt_vpc.subnet_ids
+}
+
+output "subnet_private_ids" {
+  value = module.fgt_vpc.subnet_private_ids
+}
+
+output "subnet_public_ids" {
+  value = module.fgt_vpc.subnet_public_ids
+}
+
+output "subnet_cidrs" {
+  value = module.fgt_vpc.subnet_cidrs
+}
+
+output "subnet_private_cidrs" {
+  value = module.fgt_vpc.subnet_private_cidrs
+}
+
+output "subnet_public_cidrs" {
+  value = module.fgt_vpc.subnet_public_cidrs
+}
+
+output "rt_ids" {
+  value = module.fgt_vpc.rt_ids
+}
+
+output "sg_ids" {
+  value = module.fgt_vpc.sg_ids
+}
+
+output "vpc_id" {
+  value = module.fgt_vpc.vpc_id
+}
+
+output "fgt_ids_map" {
+  value = module.fgt_nis.fgt_ids_map
+}
+
+
+
 /*
 #-------------------------------
 # Debugging 
