@@ -2,65 +2,56 @@ locals {
   ## Generate locals needed at modules ##
 
   #-----------------------------------------------------------------------------------------------------
-  # VPC details
+  # General variables
   #-----------------------------------------------------------------------------------------------------
-  fgt_number_peer_az = 1
-  fgt_cluster_type   = "fgcp" // choose type of cluster either fgsp or fgcp  
+  hub_azs   = ["${var.region}a", "${var.region}b"] //Select AZs to deploy HUB FortiGates (1 FGT peer AZ)
+  spoke_azs = ["${var.region}a"]                   //Select AZs to deploy SDWAN FortiGates (1 FGT peer AZ)
 
-  # fgt_tags -> map tags used in hub_subnet_tags to tag subnet names (this valued are define in modules as default)
-  subnet_tags = {
-    "public"  = "public"
-    "private" = "private"
-    "mgmt"    = "mgmt"
-    "ha"      = "ha-sync"
+  #-----------------------------------------------------------------------------------------------------
+  # SPOKES details
+  #-----------------------------------------------------------------------------------------------------
+  # SDWAN SPOKE
+  sdwan_spoke_number = length(var.spoke_sdwan)
+  sdwan_spokes = { for i, v in var.spoke_sdwan :
+    "${i}" => {
+      id            = v["id"]
+      cidr          = v["vpc_cidr"]
+      license_type  = lookup(v, "license_type", var.default_license_type)
+      fgt_build     = lookup(v, "fgt_build", var.default_fgt_build)
+      instance_type = lookup(v, "instance_type", var.default_fgt_instance)
+      bgp_asn       = lookup(v, "instance_type", var.default_bgp_asn)
+    }
   }
-
-  # hub_subnet_tags -> add tags to FGT subnets (port1, port2, public, private ...)
-  # - leave blank or don't add elements to not create a ports
-  # - FGCP type of cluster requires a management port
-  # - port1 must have Internet access in terms of validate license in case of using FortiFlex token or lic file. 
-  hub_subnet_tags = {
-    "port1.${local.subnet_tags["public"]}"  = "untrusted"
-    "port2.${local.subnet_tags["private"]}" = "trusted"
-    "port3.${local.subnet_tags["mgmt"]}"    = "mgmt"
-    "port4.${local.subnet_tags["ha"]}"      = ""
+  # VPC SPOKE to TGW
+  vpc_spoke_number = length(var.spoke_vpc)
+  vpc_spokes = { for i, v in var.spoke_vpc :
+    "${i}" => {
+      id   = v["id"]
+      cidr = v["vpc_cidr"]
+    }
   }
-
-  sdwan_subnet_tags = {
-    "port1.${local.subnet_tags["public"]}"  = "untrusted"
-    "port2.${local.subnet_tags["private"]}" = "trusted"
-    "port3.${local.subnet_tags["mgmt"]}"    = ""
-    "port4.${local.subnet_tags["ha"]}"      = ""
-  }
-
-  # VPC - list of public and private subnet names
-  public_subnet_names  = [local.hub_subnet_tags["port1.public"], local.hub_subnet_tags["port3.mgmt"], "bastion"]
-  private_subnet_names = [local.hub_subnet_tags["port2.private"], local.hub_subnet_tags["port4.ha-sync"], "tgw"]
-
-  sdwan_public_subnet_names  = [local.sdwan_subnet_tags["port1.public"], local.sdwan_subnet_tags["port3.mgmt"], "bastion"]
-  sdwan_private_subnet_names = [local.sdwan_subnet_tags["port2.private"], local.sdwan_subnet_tags["port4.ha-sync"]]
-
-  spoke_public_subnet_names  = ["vm"]
-  spoke_private_subnet_names = ["tgw"]
-
   #-----------------------------------------------------------------------------------------------------
   # HUB
   #-----------------------------------------------------------------------------------------------------
   # Config VPN DialUps FGT HUB
   hub = [
     {
-      id                = local.hub_id
-      bgp_asn_hub       = local.hub_bgp_asn
-      bgp_asn_spoke     = local.hub_id
-      vpn_cidr          = local.hub_vpn_cidr
+      id                = var.hub["id"]
+      bgp_asn_hub       = lookup(var.hub, "instance_type", var.default_bgp_asn)
+      bgp_asn_spoke     = lookup(var.hub, "instance_type", var.default_bgp_asn)
+      vpn_cidr          = var.hub["vpn_cidr"]
       vpn_psk           = trimspace(random_string.vpn_psk.result)
-      cidr              = local.hub_cidr
+      cidr              = var.hub["bgp_network"]
       ike_version       = "2"
       network_id        = "1"
       dpd_retryinterval = "5"
       mode_cfg          = true
       vpn_port          = "public"
       local_gw          = ""
+      license_type      = lookup(var.hub, "license_type", var.default_license_type)
+      fgt_build         = lookup(var.hub, "fgt_build", var.default_fgt_build)
+      instance_type     = lookup(var.hub, "instance_type", var.default_fgt_instance)
+      vpc_cidr          = var.hub["vpc_cidr"]
     }
   ]
 
@@ -127,7 +118,6 @@ locals {
     ]
     ]
   )
-
   #-----------------------------------------------------------------------------------------------------
   # SPOKE to TGW
   #-----------------------------------------------------------------------------------------------------
@@ -138,6 +128,48 @@ locals {
       "${pair[0]}-${pair[1]}" => module.spoke_vpc["${i}"].rt_ids[pair[1]][pair[0]]
     }
   ]
+
+  #-----------------------------------------------------------------------------------------------------
+  # VPC details
+  #-----------------------------------------------------------------------------------------------------
+  fgt_number_peer_az = 1
+  fgt_cluster_type   = "fgcp" // choose type of cluster either fgsp or fgcp  
+
+  # fgt_tags -> map tags used in hub_subnet_tags to tag subnet names (this valued are define in modules as default)
+  subnet_tags = {
+    "public"  = "public"
+    "private" = "private"
+    "mgmt"    = "mgmt"
+    "ha"      = "ha-sync"
+  }
+
+  # hub_subnet_tags -> add tags to FGT subnets (port1, port2, public, private ...)
+  # - leave blank or don't add elements to not create a ports
+  # - FGCP type of cluster requires a management port
+  # - port1 must have Internet access in terms of validate license in case of using FortiFlex token or lic file. 
+  hub_subnet_tags = {
+    "port1.${local.subnet_tags["public"]}"  = "untrusted"
+    "port2.${local.subnet_tags["private"]}" = "trusted"
+    "port3.${local.subnet_tags["mgmt"]}"    = "mgmt"
+    "port4.${local.subnet_tags["ha"]}"      = ""
+  }
+
+  sdwan_subnet_tags = {
+    "port1.${local.subnet_tags["public"]}"  = "untrusted"
+    "port2.${local.subnet_tags["private"]}" = "trusted"
+    "port3.${local.subnet_tags["mgmt"]}"    = ""
+    "port4.${local.subnet_tags["ha"]}"      = ""
+  }
+
+  # VPC - list of public and private subnet names
+  public_subnet_names  = [local.hub_subnet_tags["port1.public"], local.hub_subnet_tags["port3.mgmt"], "bastion"]
+  private_subnet_names = [local.hub_subnet_tags["port2.private"], local.hub_subnet_tags["port4.ha-sync"], "tgw"]
+
+  sdwan_public_subnet_names  = [local.sdwan_subnet_tags["port1.public"], local.sdwan_subnet_tags["port3.mgmt"], "bastion"]
+  sdwan_private_subnet_names = [local.sdwan_subnet_tags["port2.private"], local.sdwan_subnet_tags["port4.ha-sync"]]
+
+  spoke_public_subnet_names  = ["vm"]
+  spoke_private_subnet_names = ["tgw"]
 }
 
 
@@ -151,12 +183,12 @@ resource "tls_private_key" "ssh" {
   rsa_bits  = 2048
 }
 resource "aws_key_pair" "keypair" {
-  key_name   = "${local.prefix}-eu-keypair"
+  key_name   = "${var.prefix}-eu-keypair"
   public_key = tls_private_key.ssh.public_key_openssh
 }
 resource "local_file" "ssh_private_key_pem" {
   content         = tls_private_key.ssh.private_key_pem
-  filename        = "./ssh-key/${local.prefix}-ssh-key.pem"
+  filename        = "./ssh-key/${var.prefix}-ssh-key.pem"
   file_permission = "0600"
 }
 # Create new random API key to be provisioned in FortiGates.

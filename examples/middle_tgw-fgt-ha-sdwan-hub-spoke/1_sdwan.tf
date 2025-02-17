@@ -9,9 +9,9 @@ module "sdwan_vpc" {
   source   = "../../modules/vpc"
   for_each = local.sdwan_spokes
 
-  prefix     = "${local.prefix}-${each.value["id"]}"
-  admin_cidr = local.admin_cidr
-  region     = local.region
+  prefix     = "${var.prefix}-${each.value["id"]}"
+  admin_cidr = var.admin_cidr
+  region     = var.region
   azs        = local.spoke_azs
 
   cidr = each.value["cidr"]
@@ -24,7 +24,7 @@ module "sdwan_nis" {
   source   = "../../modules/fgt_ni_sg"
   for_each = local.sdwan_spokes
 
-  prefix             = "${local.prefix}-${each.value["id"]}"
+  prefix             = "${var.prefix}-${each.value["id"]}"
   azs                = local.spoke_azs
   vpc_id             = module.sdwan_vpc[each.key].vpc_id
   subnet_list        = module.sdwan_vpc[each.key].subnet_list
@@ -36,8 +36,8 @@ module "sdwan_config" {
   source   = "../../modules/fgt_config"
   for_each = { for i, v in local.sdwan_config : "${v["sdwan_id"]}.${v["fgt_id"]}" => v }
 
-  admin_cidr     = local.admin_cidr
-  admin_port     = local.admin_port
+  admin_cidr     = var.admin_cidr
+  admin_port     = var.admin_port
   rsa_public_key = tls_private_key.ssh.public_key_openssh
   api_key        = random_string.api_key.result
 
@@ -56,13 +56,13 @@ module "sdwan" {
   source   = "../../modules/fgt"
   for_each = local.sdwan_spokes
 
-  prefix        = "${local.prefix}-${each.value["id"]}"
-  region        = local.region
-  instance_type = local.instance_type
-  keypair       = aws_key_pair.keypair.key_name
+  prefix        = "${var.prefix}-${each.value["id"]}"
+  region        = var.region
+  instance_type = each.value["instance_type"]
+  keypair       = trimspace(aws_key_pair.keypair.key_name)
 
-  license_type = local.license_type
-  fgt_build    = local.fgt_build
+  license_type = each.value["license_type"]
+  fgt_build    = each.value["fgt_build"]
 
   fgt_ni_list = module.sdwan_nis[each.key].fgt_ni_list
   fgt_config  = { for i, v in local.sdwan_config : v["fgt_id"] => module.sdwan_config["${v["sdwan_id"]}.${v["fgt_id"]}"].fgt_config if tostring(v["sdwan_id"]) == each.key }
@@ -76,14 +76,14 @@ module "sdwan_vpc_routes" {
   ni_id     = module.sdwan_nis[each.key].fgt_ids_map["az1.fgt1"]["port2.private"]
   ni_rt_ids = local.sdwan_ni_rt_ids[each.key]
 
-  destination_cidr_block = local.hub_cidr
+  destination_cidr_block = local.hub[0]["cidr"]
 }
 # Crate test VM in bastion subnet
 module "sdwan_vm" {
   source   = "../../modules/vm"
   for_each = local.sdwan_spokes
 
-  prefix          = "${local.prefix}-${each.value["id"]}"
+  prefix          = "${var.prefix}-${each.value["id"]}"
   keypair         = trimspace(aws_key_pair.keypair.key_name)
   subnet_id       = module.sdwan_vpc[each.key].subnet_ids["az1"]["bastion"]
   subnet_cidr     = module.sdwan_vpc[each.key].subnet_cidrs["az1"]["bastion"]

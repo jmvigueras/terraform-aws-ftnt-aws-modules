@@ -9,12 +9,12 @@
 module "hub_vpc" {
   source = "../../modules/vpc"
 
-  prefix     = "${local.prefix}-hub"
-  admin_cidr = local.admin_cidr
-  region     = local.region
+  prefix     = "${var.prefix}-hub"
+  admin_cidr = var.admin_cidr
+  region     = var.region
   azs        = local.hub_azs
 
-  cidr = local.hub_vpc_cidr
+  cidr = local.hub[0]["vpc_cidr"]
 
   public_subnet_names  = local.public_subnet_names
   private_subnet_names = local.private_subnet_names
@@ -23,7 +23,7 @@ module "hub_vpc" {
 module "hub_nis" {
   source = "../../modules/fgt_ni_sg"
 
-  prefix = "${local.prefix}-hub"
+  prefix = "${var.prefix}-hub"
   azs    = local.hub_azs
 
   vpc_id      = module.hub_vpc.vpc_id
@@ -40,8 +40,8 @@ module "hub_config" {
   for_each = { for k, v in module.hub_nis.fgt_ports_config : k => v }
   source   = "../../modules/fgt_config"
 
-  admin_cidr     = local.admin_cidr
-  admin_port     = local.admin_port
+  admin_cidr     = var.admin_cidr
+  admin_port     = var.admin_port
   rsa_public_key = tls_private_key.ssh.public_key_openssh
   api_key        = random_string.api_key.result
 
@@ -57,19 +57,19 @@ module "hub_config" {
   config_hub = true
   hub        = local.hub
 
-  static_route_cidrs = [local.hub_vpc_cidr] //necessary routes to stablish BGP peerings and bastion connection
+  static_route_cidrs = [local.hub[0]["vpc_cidr"]] //necessary routes to stablish BGP peerings and bastion connection
 }
 # Create FGT for hub EU
 module "hub" {
   source = "../../modules/fgt"
 
-  prefix        = "${local.prefix}-hub"
-  region        = local.region
-  instance_type = local.instance_type
+  prefix        = "${var.prefix}-hub"
+  region        = var.region
+  instance_type = local.hub[0]["instance_type"]
   keypair       = trimspace(aws_key_pair.keypair.key_name)
 
-  license_type = local.license_type
-  fgt_build    = local.fgt_build
+  license_type = local.hub[0]["license_type"]
+  fgt_build    = local.hub[0]["fgt_build"]
 
   fgt_ni_list = module.hub_nis.fgt_ni_list
   fgt_config  = { for k, v in module.hub_config : k => v.fgt_config }
@@ -78,16 +78,16 @@ module "hub" {
 module "tgw" {
   source = "../../modules/tgw"
 
-  prefix = local.prefix
+  prefix = var.prefix
 
-  tgw_cidr    = local.tgw_cidr
-  tgw_bgp_asn = local.tgw_bgp_asn
+  tgw_cidr    = var.tgw["cidr"]
+  tgw_bgp_asn = var.tgw["bgp_asn"]
 }
 # Create TGW Attachment
 module "tgw_attachment" {
   source = "../../modules/tgw_attachment"
 
-  prefix = local.prefix
+  prefix = var.prefix
 
   vpc_id         = module.hub_vpc.vpc_id
   tgw_id         = module.tgw.tgw_id
@@ -96,7 +96,7 @@ module "tgw_attachment" {
   default_rt_association = true
   appliance_mode_support = "enable"
 
-  tags = local.tags
+  tags = var.tags
 }
 #------------------------------------------------------------------------------
 # Update VPC routes
@@ -108,7 +108,7 @@ module "ns_tgw_vpc_routes_to_fgt_ni" {
   ni_id     = module.hub_nis.fgt_ids_map["az1.fgt1"]["port2.private"]
   ni_rt_ids = local.hub_ni_rt_ids
 
-  destination_cidr_block = local.hub_cidr
+  destination_cidr_block = local.hub[0]["cidr"]
 }
 
 # Create route to 0.0.0.0/0 at FortiGates private subnet RT to TGW
