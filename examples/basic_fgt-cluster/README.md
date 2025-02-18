@@ -2,6 +2,12 @@
 
 This is an example of how to deploy fortigates using [ftnt-aws-modules](https://registry.terraform.io/modules/jmvigueras/ftnt-aws-modules/aws/latest)
 
+You can choose type of cluster to deploy, number of AZs to deploy and number of FortiGate cluster members.
+
+> [!NOTE]
+> FGCP cluster has two members only and can be deployed in 1 or 2 AZs
+> FGSP cluster can have up to 16 members, recommended no more than 8 and can be split in several AZs.
+
 ## Deployment Overview
 
 ```hcl
@@ -10,7 +16,7 @@ This is an example of how to deploy fortigates using [ftnt-aws-modules](https://
 
 module "fgt-cluster-fgcp-1az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.9"
+  version = "0.0.12"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -27,14 +33,14 @@ module "fgt-cluster-fgcp-1az" {
   fgt_vpc_cidr = "10.10.0.0/24"
 
   public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb", "protected"]
+  private_subnet_names_extra = ["tgw","protected"]
 }
 
 # Example 2: FGT cluster FGCP in 2 AZ with 2 members
  
-module "fgt-cluster-fgcp-1az" {
+module "fgt-cluster-fgcp-2az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.9"
+  version = "0.0.12"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -51,14 +57,14 @@ module "fgt-cluster-fgcp-1az" {
   fgt_vpc_cidr = "10.10.0.0/24"
 
   public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb", "protected"]
+  private_subnet_names_extra = ["tgw","protected"]
 }
 
 # Example 3: FGT cluster FGSP in 3 AZ with 3 members
  
-module "fgt-cluster-fgcp-1az" {
+module "fgt-cluster-fgsp-3az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.9"
+  version = "0.0.12"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -75,21 +81,21 @@ module "fgt-cluster-fgcp-1az" {
   fgt_vpc_cidr = "10.10.0.0/24"
 
   public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb", "protected"]
+  private_subnet_names_extra = ["tgw", "gwlb"]
 }
 
 # Example 4: FGT cluster FGSP in 1 AZ with 2 members
  
-module "fgt-cluster-fgcp-1az" {
+module "fgt-cluster-fgsp-1az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.9"
+  version = "0.0.12"
 
   prefix = "fgt-cluster-fgcp-1az"
 
   region = "eu-west-1"
   azs    = ["eu-west-1a"]
 
-  fgt_number_peer_az = 1
+  fgt_number_peer_az = 2
   fgt_cluster_type = "fgsp"
 
   license_type  = "byol"
@@ -99,7 +105,7 @@ module "fgt-cluster-fgcp-1az" {
   fgt_vpc_cidr = "10.10.0.0/24"
 
   public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb", "protected"]
+  private_subnet_names_extra = ["tgw", "gwlb"]
 }
 ```
 

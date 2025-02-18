@@ -10,6 +10,7 @@ output "fgt" {
         ) : (
         "https://${element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0)}:${var.admin_port}"
       )
+      fgt_public = try(element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0), "None")
     }
   }
 }

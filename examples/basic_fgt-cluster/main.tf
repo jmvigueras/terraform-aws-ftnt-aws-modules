@@ -18,6 +18,8 @@ module "fgt_vpc" {
 
   public_subnet_names  = local.public_subnet_names
   private_subnet_names = local.private_subnet_names
+
+  tags = var.tags
 }
 # Create FGT NIs
 module "fgt_nis" {
@@ -34,6 +36,8 @@ module "fgt_nis" {
 
   fgt_number_peer_az = var.fgt_number_peer_az
   cluster_type       = var.fgt_cluster_type
+
+  tags = var.tags
 }
 # Create FGTs config
 module "fgt_config" {
@@ -70,6 +74,8 @@ module "fgt" {
 
   fgt_ni_list = module.fgt_nis.fgt_ni_list
   fgt_config  = { for k, v in module.fgt_config : k => v.fgt_config }
+
+  tags = var.tags
 }
 
 #------------------------------------------------------------------------------

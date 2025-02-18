@@ -117,16 +117,15 @@ data "aws_ami" "ami_ubuntu" {
 // Amazon Linux 2 AMI
 data "aws_ami" "ami_amazon_linux_2" {
   most_recent = true
+  owners      = ["137112412989"] # Amazon's official AWS account for Amazon Linux 2
 
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm*"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
 }
-
-
-
