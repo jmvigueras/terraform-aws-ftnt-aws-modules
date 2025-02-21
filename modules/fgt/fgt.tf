@@ -15,7 +15,7 @@ resource "aws_instance" "fgt" {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
-  
+
   root_block_device {
     encrypted = true
   }
@@ -26,7 +26,7 @@ resource "aws_instance" "fgt" {
   }
 
   dynamic "network_interface" {
-    for_each = { for k, v in each.value["ni_ids"] : k => v }
+    for_each = each.value["ni_ids_map"]
 
     content {
       device_index         = network_interface.key

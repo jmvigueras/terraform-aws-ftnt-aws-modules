@@ -189,6 +189,7 @@ locals {
         fgt    = ni["fgt"]
         sg_id  = ni["sg_id"]
         eip    = lookup(aws_eip.eips, "${ni["az"]}.${ni["fgt"]}.${ni["subnet_tag"]}", { public_ip = "" }).public_ip
+        index  = trimprefix(one(slice(split(".", ni["subnet_tag"]), 0, 1)), "port") - 1
       } if ni["az"] == v["az"] && ni["fgt"] == v["fgt"]
     ]
   }
@@ -215,6 +216,7 @@ locals {
       public_eips = compact([for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] : ni["eip"] if strcontains(one(slice(split(".", ni["tag"]), 1, 2)), local.tag_public)])
       mgmt_eips   = compact([for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] : ni["eip"] if strcontains(one(slice(split(".", ni["tag"]), 1, 2)), local.tag_mgmt)])
       ni_ids      = compact([for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] : ni["id"]])
+      ni_ids_map  = merge({ for k, ni in local.fgt_ni_detail["${v["az"]}.${v["fgt"]}"] : ni["index"] => ni["id"] })
     }
   }
   # Map of FGT EIPs

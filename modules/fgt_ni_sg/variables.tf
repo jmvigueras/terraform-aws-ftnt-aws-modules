@@ -57,9 +57,9 @@ variable "fgt_subnet_tags" {
   description = "Subnet tags map assigned to each subnet, must much with variable subnet_tags"
   type        = map(string)
   default = {
-    "port0.public"  = "subnet-public"
-    "port1.private" = "subnet-private"
-    "port2.mgmt"    = "subnet-mgmt"
+    "port1.public"  = "untrust"
+    "port2.private" = "trust"
+    "port3.mgmt"    = "mgmt"
   }
 }
 
