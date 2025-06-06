@@ -21,7 +21,7 @@ variable "region" {
 variable "azs" {
   description = "AWS access key"
   type        = list(string)
-  default     = ["eu-west-1a"]
+  default     = ["eu-west-1a", "eu-west-1b"]
 }
 
 variable "admin_port" {
@@ -46,7 +46,7 @@ variable "instance_type" {
 variable "fgt_build" {
   description = "value of FortiOS build"
   type        = string
-  default     = "build2726"
+  default     = "build2795"
 }
 
 variable "license_type" {
@@ -58,7 +58,7 @@ variable "license_type" {
 variable "fgt_number_peer_az" {
   description = "value of fgt_number_peer_az"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "fgt_cluster_type" {
@@ -102,3 +102,20 @@ variable "fgt_vpc_cidr" {
   default     = "10.1.0.0/24"
 }
 
+variable "inspection_vpc_cidrs" {
+  description = "list of CIDRs for inspection (used in GWLB)"
+  type        = list(string)
+  default     = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+}
+
+variable "config_gwlb" {
+  description = "Boolean to enable deploymen of and GWLB"
+  type        = bool
+  default     = false
+}
+
+variable "fgt_api_key" {
+  description = "API key for FGTs"
+  type        = string
+  default     = null
+}

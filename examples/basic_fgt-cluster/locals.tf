@@ -28,6 +28,13 @@ locals {
 
   # List of subnet names in FortiGate VPC
   public_subnet_names  = concat(local.fgt_public_subnets, var.public_subnet_names_extra)
-  private_subnet_names = concat(local.fgt_private_subnets, var.private_subnet_names_extra)
+  private_subnet_names = var.config_gwlb ? concat(local.fgt_private_subnets, var.private_subnet_names_extra, ["gwlb"]) : concat(local.fgt_private_subnets, var.private_subnet_names_extra)
+
+  # FortiGate API key
+  fgt_api_key = var.fgt_api_key != null ? var.fgt_api_key : random_string.api_key.result
+
+  # GWLB endpoints ips (control locals values if var.config_gwlb is false to avoid functions errors)
+  gwlbe_ips_list = try(values(module.gwlb[0].gwlbe_ips), [])
+  gwlbe_ips_map  = try(zipmap(keys(module.fgt_nis.fgt_ports_config), local.gwlbe_ips_list), {})
 
 }

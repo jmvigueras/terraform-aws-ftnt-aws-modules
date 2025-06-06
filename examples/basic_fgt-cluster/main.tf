@@ -9,7 +9,7 @@
 module "fgt_vpc" {
   source = "../../modules/vpc"
 
-  prefix     = "${var.prefix}-fgcp"
+  prefix     = var.prefix
   admin_cidr = var.admin_cidr
   region     = var.region
   azs        = var.azs
@@ -25,7 +25,7 @@ module "fgt_vpc" {
 module "fgt_nis" {
   source = "../../modules/fgt_ni_sg"
 
-  prefix = "${var.prefix}-fgcp"
+  prefix = var.prefix
   azs    = var.azs
 
   vpc_id      = module.fgt_vpc.vpc_id
@@ -41,13 +41,14 @@ module "fgt_nis" {
 }
 # Create FGTs config
 module "fgt_config" {
-  for_each = { for k, v in module.fgt_nis.fgt_ports_config : k => v }
   source   = "../../modules/fgt_config"
 
+  for_each = { for k, v in module.fgt_nis.fgt_ports_config : k => v }
+  
   admin_cidr     = var.admin_cidr
   admin_port     = var.admin_port
   rsa_public_key = tls_private_key.ssh.public_key_openssh
-  api_key        = random_string.api_key.result
+  api_key        = local.fgt_api_key
 
   ports_config = each.value
 
@@ -58,13 +59,17 @@ module "fgt_config" {
   fgt_id     = each.key
   ha_members = module.fgt_nis.fgt_ports_config
 
+  config_gwlb           = var.config_gwlb
+  gwlbe_ip              = lookup(local.gwlbe_ips_map, each.key, "")
+  gwlb_inspection_cidrs = var.inspection_vpc_cidrs
+
   static_route_cidrs = [var.fgt_vpc_cidr] //necessary routes to stablish BGP peerings and bastion connection
 }
 # Create FGT for hub EU
 module "fgt" {
   source = "../../modules/fgt"
 
-  prefix        = "${var.prefix}-fgcp"
+  prefix        = var.prefix
   region        = var.region
   instance_type = var.instance_type
   keypair       = trimspace(aws_key_pair.keypair.key_name)
@@ -77,6 +82,24 @@ module "fgt" {
 
   tags = var.tags
 }
+# Create GWLB
+module "gwlb" {
+  source = "../../modules/gwlb"
+
+  count = var.config_gwlb ? 1 : 0
+
+  prefix     = var.prefix
+  subnet_ids = { for k, v in module.fgt_vpc.subnet_ids : k => lookup(v, "gwlb", "") }
+  vpc_id     = module.fgt_vpc.vpc_id
+  fgt_ips    = compact([for k, v in module.fgt_nis.fgt_ips_map : lookup(v, "port2.${local.subnet_tags["private"]}", "")])
+
+  backend_port     = "8008"
+  backend_protocol = "HTTP"
+  backend_interval = 10
+
+  tags = var.tags
+}
+
 
 #------------------------------------------------------------------------------
 # General resources

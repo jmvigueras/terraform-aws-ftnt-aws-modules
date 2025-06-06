@@ -16,7 +16,7 @@ You can choose type of cluster to deploy, number of AZs to deploy and number of 
 
 module "fgt-cluster-fgcp-1az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.12"
+  version = "1.0.0"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -28,7 +28,7 @@ module "fgt-cluster-fgcp-1az" {
 
   license_type  = "byol"
   instance_type = "c6i.large"
-  fgt_build     = "build2726"
+  fgt_build     = "build2795"
 
   fgt_vpc_cidr = "10.10.0.0/24"
 
@@ -40,7 +40,7 @@ module "fgt-cluster-fgcp-1az" {
  
 module "fgt-cluster-fgcp-2az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.12"
+  version = "1.0.0"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -52,7 +52,7 @@ module "fgt-cluster-fgcp-2az" {
 
   license_type  = "byol"
   instance_type = "c6i.large"
-  fgt_build     = "build2726"
+  fgt_build     = "build2795"
 
   fgt_vpc_cidr = "10.10.0.0/24"
 
@@ -64,9 +64,9 @@ module "fgt-cluster-fgcp-2az" {
  
 module "fgt-cluster-fgsp-3az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.12"
+  version = "1.0.0"
 
-  prefix = "fgt-cluster-fgcp-1az"
+  prefix = "fgt-cluster-fgsp-3az"
 
   region = "eu-west-1"
   azs    = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
@@ -76,19 +76,18 @@ module "fgt-cluster-fgsp-3az" {
 
   license_type  = "byol"
   instance_type = "c6i.large"
-  fgt_build     = "build2726"
+  fgt_build     = "build2795"
 
-  fgt_vpc_cidr = "10.10.0.0/24"
+  fgt_vpc_cidr = "10.10.0.0/23"
 
-  public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb"]
+  config_gwlb = true
 }
 
 # Example 4: FGT cluster FGSP in 1 AZ with 2 members
  
 module "fgt-cluster-fgsp-1az" {
   source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-cluster-fgcp-1az"
-  version = "0.0.12"
+  version = "1.0.0"
 
   prefix = "fgt-cluster-fgcp-1az"
 
@@ -100,12 +99,11 @@ module "fgt-cluster-fgsp-1az" {
 
   license_type  = "byol"
   instance_type = "c6i.large"
-  fgt_build     = "build2726"
+  fgt_build     = "build2795"
 
   fgt_vpc_cidr = "10.10.0.0/24"
 
-  public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw", "gwlb"]
+  config_gwlb = true
 }
 ```
 

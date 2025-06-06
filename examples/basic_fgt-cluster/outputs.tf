@@ -15,11 +15,16 @@ output "fgt" {
   }
 }
 
+output "api_key" {
+  value = local.fgt_api_key
+}
+
 output "keypair_name" {
   value = aws_key_pair.keypair.key_name
 }
 
 output "ssh_private_key_pem" {
+  sensitive = true
   value = trimspace(tls_private_key.ssh.private_key_pem)
 }
 

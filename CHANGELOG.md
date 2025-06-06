@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.0 - 2025-06-06
+- Added new module to deploy FortiWEB VM with NLB
+- Added new module to deploy FortiAuthenticator with NLB
+- Improve modules
+- New improved module basic_fgt-cluster to deploy a FortiGate cluster (FGSP with GWLB or FGCP)
+
 ## v0.0.6 - 2024-04-22
 - Added new module FortiADC VM
 - Update fgt_config SDWAN templates
@@ -20,5 +26,4 @@ All notable changes to this project will be documented in this file.
 - Added more examples
 
 ## v0.0.1 - 2024-01-16
-
 - Initial commit

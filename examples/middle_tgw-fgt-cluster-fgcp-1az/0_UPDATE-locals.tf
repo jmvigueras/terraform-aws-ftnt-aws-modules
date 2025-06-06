@@ -19,7 +19,7 @@ locals {
   //admin_cidr = "<customer-public-cidr>" #CIDR to be configured at SG for Management and Fortigate Trusted hosts
   admin_cidr    = "0.0.0.0/0"
   instance_type = "c6i.large"
-  fgt_build     = "build1577"
+  fgt_build     = "build2795"
   license_type  = "payg"
 
   fgt_number_peer_az = 2

@@ -43,7 +43,7 @@ variable "default_bgp_asn" {
 variable "default_fgt_build" {
   description = "Default FortiGate version if not defined by input variable"
   type        = string
-  default     = "build2702"
+  default     = "build2795"
 }
 
 variable "default_license_type" {
