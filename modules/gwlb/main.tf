@@ -54,7 +54,7 @@ resource "aws_lb_target_group_attachment" "gwlb_tg_fgt" {
 // Create GWLB Service
 resource "aws_vpc_endpoint_service" "gwlb_service" {
   acceptance_required        = false
-  allowed_principals         = [data.aws_caller_identity.current.arn]
+  #allowed_principals         = [data.aws_caller_identity.current.arn]
   gateway_load_balancer_arns = [aws_lb.gwlb.arn]
 
   tags = merge(
