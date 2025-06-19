@@ -41,10 +41,10 @@ module "fgt_nis" {
 }
 # Create FGTs config
 module "fgt_config" {
-  source   = "../../modules/fgt_config"
+  source = "../../modules/fgt_config"
 
   for_each = { for k, v in module.fgt_nis.fgt_ports_config : k => v }
-  
+
   admin_cidr     = var.admin_cidr
   admin_port     = var.admin_port
   rsa_public_key = tls_private_key.ssh.public_key_openssh
@@ -110,7 +110,7 @@ resource "tls_private_key" "ssh" {
   rsa_bits  = 2048
 }
 resource "aws_key_pair" "keypair" {
-  key_name   = "${var.prefix}-eu-keypair"
+  key_name   = "${var.prefix}-keypair"
   public_key = tls_private_key.ssh.public_key_openssh
 }
 resource "local_file" "ssh_private_key_pem" {

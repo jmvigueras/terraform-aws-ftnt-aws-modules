@@ -25,7 +25,7 @@ output "keypair_name" {
 
 output "ssh_private_key_pem" {
   sensitive = true
-  value = trimspace(tls_private_key.ssh.private_key_pem)
+  value     = trimspace(tls_private_key.ssh.private_key_pem)
 }
 
 output "subnet_ids" {

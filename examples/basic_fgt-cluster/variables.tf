@@ -28,7 +28,6 @@ variable "admin_port" {
   description = "value of admin_port"
   type        = string
   default     = "8443"
-
 }
 
 variable "admin_cidr" {

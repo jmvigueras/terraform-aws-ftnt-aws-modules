@@ -7,7 +7,7 @@ output "fgt_config" {
 output "vpn_psk" {
   description = "VPN Pre-Shared Key (PSK)"
   sensitive   = true
-  value       = var.hub[0]["vpn_psk"] == "" ? random_string.vpn_psk.result : var.hub[0]["vpn_psk"]
+  value       = try(lookup(var.hub[0], "vpn_psk"), random_string.vpn_psk.result)
 }
 
 output "api_key" {
