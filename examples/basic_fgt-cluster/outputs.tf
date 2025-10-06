@@ -6,9 +6,9 @@ output "fgt" {
     v["fgt"] => {
       fgt_pass = v["id"]
       fgt_mgmt = var.fgt_cluster_type == "fgcp" ? (
-        "https://${element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").mgmt_eips, 0)}:${var.admin_port}"
+        try("https://${element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").mgmt_eips, 0)}:${var.admin_port}", "<private_ip>")
         ) : (
-        "https://${element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0)}:${var.admin_port}"
+        try("https://${try(element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0), "")}:${var.admin_port}", "<private_ip>")
       )
       fgt_public = try(element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0), "None")
     }

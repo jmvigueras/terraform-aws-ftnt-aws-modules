@@ -113,6 +113,18 @@ variable "config_gwlb" {
   default     = false
 }
 
+variable "config_mgmt_private" {
+  description = "Boolean to deploy Management interface private (if cluster type is FGCP this interfaces needs Internet access)"
+  type        = bool
+  default     = false
+}
+
+variable "config_mgmt_nat_gateway" {
+  description = "Boolean to deploy NAT gateway for management interface has Internet access (mandatory if cluster type is FGCP and config_mgmt_private is true)"
+  type        = bool
+  default     = false
+}
+
 variable "fgt_api_key" {
   description = "API key for FGTs"
   type        = string

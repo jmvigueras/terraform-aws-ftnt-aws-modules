@@ -37,6 +37,8 @@ module "fgt_nis" {
   fgt_number_peer_az = var.fgt_number_peer_az
   cluster_type       = var.fgt_cluster_type
 
+  config_eip_to_mgmt = var.config_mgmt_private ? false : true
+
   tags = var.tags
 }
 # Create FGTs config
@@ -99,7 +101,36 @@ module "gwlb" {
 
   tags = var.tags
 }
+# Create NAT Gateway if management interface is private
+resource "aws_eip" "nat_gw_mgmt" {
+  for_each = local.nat_gw_subnet_map
 
+  domain = "vpc"
+
+  tags = merge(var.tags, {
+    Name = "${var.prefix}-${each.key}-eip-nat-gw-mgmt"
+  })
+}
+resource "aws_nat_gateway" "nat_gw_mgmt" {
+  for_each = local.nat_gw_subnet_map
+
+  allocation_id = aws_eip.nat_gw_mgmt[each.key].id
+  subnet_id     = each.value["subnet_id"]
+
+  tags = merge(var.tags, {
+    Name = "${var.prefix}-${each.key}-nat-gw-mgmt"
+  })
+
+  depends_on = [module.fgt_vpc]
+}
+# Create route in public route tables to NAT gateway if management interface is private
+resource "aws_route" "nat_gw_mgmt" {
+  for_each = local.nat_gw_subnet_map
+
+  route_table_id         = each.value["rt_id"]
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat_gw_mgmt[each.key].id
+}
 
 #------------------------------------------------------------------------------
 # General resources

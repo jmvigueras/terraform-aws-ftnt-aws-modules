@@ -23,8 +23,15 @@ locals {
   }
 
   # List of subnet names for FortiGate public and private subnets
-  fgt_public_subnets  = [local.fgt_subnet_tags["port1.${local.subnet_tags["public"]}"], local.fgt_subnet_tags["port3.${local.subnet_tags["mgmt"]}"]]
-  fgt_private_subnets = [local.fgt_subnet_tags["port2.${local.subnet_tags["private"]}"], local.fgt_subnet_tags["port4.${local.subnet_tags["ha"]}"]]
+  fgt_public_subnets = [
+    local.fgt_subnet_tags["port1.${local.subnet_tags["public"]}"],
+    var.config_mgmt_private ? "" : local.fgt_subnet_tags["port3.${local.subnet_tags["mgmt"]}"]
+  ]
+  fgt_private_subnets = [
+    local.fgt_subnet_tags["port2.${local.subnet_tags["private"]}"],
+    local.fgt_subnet_tags["port4.${local.subnet_tags["ha"]}"],
+    var.config_mgmt_private ? local.fgt_subnet_tags["port3.${local.subnet_tags["mgmt"]}"] : ""
+  ]
 
   # List of subnet names in FortiGate VPC
   public_subnet_names  = concat(local.fgt_public_subnets, var.public_subnet_names_extra)
@@ -37,4 +44,11 @@ locals {
   gwlbe_ips_list = try(values(module.gwlb[0].gwlbe_ips), [])
   gwlbe_ips_map  = try(zipmap(keys(module.fgt_nis.fgt_ports_config), local.gwlbe_ips_list), {})
 
+  # NAT Gateway map (deploy one peer AZ)
+  nat_gw_subnet_map = {
+    for i, v in var.azs : "az${i + 1}" => {
+      subnet_id = lookup(module.fgt_vpc.subnet_ids["az${i + 1}"], local.fgt_subnet_tags["port1.${local.subnet_tags["public"]}"], ""),
+      rt_id     = lookup(module.fgt_vpc.rt_ids["az${i + 1}"], local.fgt_subnet_tags["port3.${local.subnet_tags["mgmt"]}"], "")
+    } if var.config_mgmt_nat_gateway
+  }
 }
