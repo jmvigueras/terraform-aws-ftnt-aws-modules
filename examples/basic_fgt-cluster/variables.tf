@@ -130,3 +130,15 @@ variable "fgt_api_key" {
   type        = string
   default     = null
 }
+
+variable "config_extra" {
+  description = "Add extra config to bootstrap config generated"
+  type        = string
+  default     = ""
+}
+
+variable "fortiflex_tokens" {
+  description = "List of FortiFlex tokens to be used in the FortiGates"
+  type        = list(string)
+  default     = []
+}

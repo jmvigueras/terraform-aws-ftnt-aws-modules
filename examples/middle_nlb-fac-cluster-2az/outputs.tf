@@ -1,19 +1,19 @@
 #-----------------------------------------------------------------------------------------------------
 # Outputs
 #-----------------------------------------------------------------------------------------------------
-output "fac_ids"  {
-  value = [ for k, v in module.fac : v.id ]
+output "fac_ids" {
+  value = [for k, v in module.fac : v.id]
 }
 
-output "fac_public_ips"  {
-  value = [ for k, v in module.fac : v.public_ip ]
+output "fac_public_ips" {
+  value = [for k, v in module.fac : v.public_ip]
 }
 
-output "fac_private_ips"  {
-  value = [ for k, v in module.fac : v.private_ip ]
+output "fac_private_ips" {
+  value = [for k, v in module.fac : v.private_ip]
 }
 
-output "nlb"  {
+output "nlb" {
   value = module.nlb.nlb_ips
 }
 

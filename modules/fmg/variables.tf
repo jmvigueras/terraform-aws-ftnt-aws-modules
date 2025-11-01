@@ -32,32 +32,32 @@ variable "ni_id" {
 
 variable "private_ip" {
   description = "Private IP used to create Network Interface"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "instance_type" {
   description = "FortiAnalyzer instance type"
-  type    = string
-  default = "m5.xlarge"
+  type        = string
+  default     = "m5.xlarge"
 }
 
 variable "subnet_id" {
   description = "Subnet ID, necessary if ni_id it is not provided to create NI"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "subnet_cidr" {
   description = "CIDR of the subnet, use to assign NI private IP"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "config_eip" {
   description = "Boolean to enable/disable EIP configuration"
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "cidr_host" {
@@ -68,54 +68,54 @@ variable "cidr_host" {
 
 variable "security_groups" {
   description = "List of security groups to assign to NI"
-  type    = list(string)
-  default = null
+  type        = list(string)
+  default     = null
 }
 
 variable "keypair" {
   description = "AWS key pair name"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "iam_profile" {
   description = "IAM profile to assing to the instance"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "admin_username" {
   description = "fmg username used for API key"
-  type    = string
-  default = "admin"
+  type        = string
+  default     = "admin"
 }
 
 variable "fmg_extra_config" {
   description = "Extra config to add to bootstrap user-data"
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "fmg_build" {
   description = "fmg version"
-  type    = string
-  default = "build1460"
+  type        = string
+  default     = "build1460"
 }
 
 variable "rsa-public-key" {
   description = "SSH RSA public key for KeyPair"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "license_type" {
   description = "License Type to create FortiGate-VM"
-  type    = string
-  default = "payg"
+  type        = string
+  default     = "payg"
 }
 
 variable "license_file" {
   description = "License file path"
-  type    = string
-  default = "./licenses/licensefmg.lic"
+  type        = string
+  default     = "./licenses/licensefmg.lic"
 }

@@ -10,15 +10,15 @@ output "faz" {
 
 output "id" {
   description = "FortiAnalyzer instance ID"
-  value = aws_instance.faz.id
+  value       = aws_instance.faz.id
 }
 
 output "private_ip" {
   description = "FortiAnalyzer private IP"
-  value = local.private_ip
+  value       = local.private_ip
 }
 
 output "public_ip" {
   description = "FortiAnalyzer public IP"
-  value = local.public_ip
+  value       = local.public_ip
 }

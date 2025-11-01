@@ -10,15 +10,15 @@ output "details" {
 
 output "id" {
   description = "FortiAuthenticator instance ID"
-  value = aws_instance.fac.id
+  value       = aws_instance.fac.id
 }
 
 output "private_ip" {
   description = "FortiAuthenticator private IP"
-  value = local.private_ip
+  value       = local.private_ip
 }
 
 output "public_ip" {
   description = "FortiAuthenticator public IP"
-  value = local.public_ip
+  value       = local.public_ip
 }

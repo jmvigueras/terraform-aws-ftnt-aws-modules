@@ -9,7 +9,7 @@ module "eu_spoke_to_core_net" {
   prefix     = "${local.prefix}-eu-core-net-spoke"
   admin_cidr = local.admin_cidr
   azs        = local.eu_azs
-  
+
   cidr = each.value
 
   public_subnet_names  = ["vm"]

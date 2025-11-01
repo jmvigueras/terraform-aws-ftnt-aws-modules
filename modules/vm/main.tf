@@ -94,7 +94,7 @@ resource "aws_instance" "vm_iam_profile" {
   }
 
   tags = merge(
-    { Name  = "${var.prefix}-vm-${var.suffix}" },
+    { Name = "${var.prefix}-vm-${var.suffix}" },
     var.tags
   )
 }

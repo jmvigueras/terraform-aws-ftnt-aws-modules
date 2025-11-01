@@ -22,7 +22,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "vpc_attachment" {
 # Create route table association
 resource "aws_ec2_transit_gateway_route_table_association" "rt_association" {
   count = var.default_rt_association ? 0 : 1
-  
+
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc_attachment.id
   transit_gateway_route_table_id = var.rt_association_id
 }

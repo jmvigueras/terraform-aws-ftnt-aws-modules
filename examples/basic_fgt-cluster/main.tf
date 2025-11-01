@@ -52,6 +52,9 @@ module "fgt_config" {
   rsa_public_key = tls_private_key.ssh.public_key_openssh
   api_key        = local.fgt_api_key
 
+  license_type    = var.license_type
+  fortiflex_token = lookup(local.fortiflex_token_map, each.key, "")
+
   ports_config = each.value
 
   config_fgcp       = var.fgt_cluster_type == "fgcp" ? true : false
@@ -64,6 +67,8 @@ module "fgt_config" {
   config_gwlb           = var.config_gwlb
   gwlbe_ip              = lookup(local.gwlbe_ips_map, each.key, "")
   gwlb_inspection_cidrs = var.inspection_vpc_cidrs
+
+  config_extra = var.config_extra
 
   static_route_cidrs = [var.fgt_vpc_cidr] //necessary routes to stablish BGP peerings and bastion connection
 }

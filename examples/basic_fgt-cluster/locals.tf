@@ -44,6 +44,12 @@ locals {
   gwlbe_ips_list = try(values(module.gwlb[0].gwlbe_ips), [])
   gwlbe_ips_map  = try(zipmap(keys(module.fgt_nis.fgt_ports_config), local.gwlbe_ips_list), {})
 
+  # Fortiflex token map
+  fortiflex_token_map = {
+    for i, k in keys(try(module.fgt_nis.fgt_ports_config, {})) : 
+      k => try(var.fortiflex_tokens[i], "")
+  }
+
   # NAT Gateway map (deploy one peer AZ)
   nat_gw_subnet_map = {
     for i, v in var.azs : "az${i + 1}" => {

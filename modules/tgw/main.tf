@@ -14,7 +14,7 @@ resource "aws_ec2_transit_gateway" "tgw" {
   amazon_side_asn             = var.tgw_bgp_asn
 
   tags = merge(
-    {Name = "${var.prefix}-tgw"},
+    { Name = "${var.prefix}-tgw" },
     var.tags
   )
 }
@@ -24,7 +24,7 @@ resource "aws_ec2_transit_gateway_route_table" "rt_pre_inspection" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
 
   tags = merge(
-    {Name = "${var.prefix}-rt-pre-inspection"},
+    { Name = "${var.prefix}-rt-pre-inspection" },
     var.tags
   )
 }
@@ -33,7 +33,7 @@ resource "aws_ec2_transit_gateway_route_table" "rt_post_inspection" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
 
   tags = merge(
-    {Name = "${var.prefix}-rt-post-inspection"},
+    { Name = "${var.prefix}-rt-post-inspection" },
     var.tags
   )
 }

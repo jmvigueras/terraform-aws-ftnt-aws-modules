@@ -32,11 +32,11 @@ resource "aws_network_interface" "ni" {
 
 # Create the instance FGT AZ1 Active
 resource "aws_instance" "fmg" {
-  ami               = var.license_type == "byol" ? data.aws_ami_ids.fmg_amis_byol.ids[0] : data.aws_ami_ids.fmg_amis_payg.ids[0]
-  instance_type     = var.instance_type
-  key_name          = var.keypair
+  ami           = var.license_type == "byol" ? data.aws_ami_ids.fmg_amis_byol.ids[0] : data.aws_ami_ids.fmg_amis_payg.ids[0]
+  instance_type = var.instance_type
+  key_name      = var.keypair
   //iam_instance_profile = null
-  user_data         = data.template_file.fmg_config.rendered
+  user_data = data.template_file.fmg_config.rendered
 
   metadata_options {
     http_endpoint = "enabled"

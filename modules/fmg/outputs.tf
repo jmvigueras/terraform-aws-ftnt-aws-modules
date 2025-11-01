@@ -10,15 +10,15 @@ output "fmg" {
 
 output "id" {
   description = "FortiManager instance ID"
-  value = aws_instance.fmg.id
+  value       = aws_instance.fmg.id
 }
 
 output "private_ip" {
   description = "FortiManager private IP"
-  value = local.private_ip
+  value       = local.private_ip
 }
 
 output "public_ip" {
   description = "FortiManager public IP"
-  value = local.public_ip
+  value       = local.public_ip
 }

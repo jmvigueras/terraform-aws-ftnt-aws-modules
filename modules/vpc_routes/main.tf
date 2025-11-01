@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------
 # Create routes to NI in RTs
 resource "aws_route" "r_private_to_ni_default" {
-  for_each = local.ni_rt_ids 
+  for_each = local.ni_rt_ids
 
   route_table_id         = each.value
   destination_cidr_block = var.destination_cidr_block
@@ -13,7 +13,7 @@ resource "aws_route" "r_private_to_ni_default" {
 # Crate Route Table private to a TGW
 #---------------------------------------------------------------------------
 resource "aws_route" "r_private_to_tgw_default" {
-  for_each = var.tgw_rt_ids 
+  for_each = var.tgw_rt_ids
 
   route_table_id         = each.value
   destination_cidr_block = var.destination_cidr_block
@@ -23,7 +23,7 @@ resource "aws_route" "r_private_to_tgw_default" {
 # Crate Route Table private to a GWLBe
 #---------------------------------------------------------------------------
 resource "aws_route" "r_private_to_gwlb_default" {
-  for_each = var.gwlb_rt_ids 
+  for_each = var.gwlb_rt_ids
 
   route_table_id         = each.value
   destination_cidr_block = var.destination_cidr_block
@@ -33,7 +33,7 @@ resource "aws_route" "r_private_to_gwlb_default" {
 # Crate Route Table private to a Core Network
 #---------------------------------------------------------------------------
 resource "aws_route" "r_private_to_core_net_default" {
-  for_each = local.core_network_rt_ids 
+  for_each = local.core_network_rt_ids
 
   route_table_id         = each.value
   destination_cidr_block = var.destination_cidr_block

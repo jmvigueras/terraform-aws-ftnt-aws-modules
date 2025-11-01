@@ -25,8 +25,8 @@ output "public_ip" {
 
 # Debbuging
 output "ami_names" {
-  value  = {
+  value = {
     payg = "FortiMail-VMAW-64*${var.fmail_version}*PAYG*"
     byol = "FortiMail-VMAW-64*${var.fmail_version}*BYOL*"
- }
+  }
 }

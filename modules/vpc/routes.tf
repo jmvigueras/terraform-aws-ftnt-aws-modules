@@ -52,7 +52,7 @@ resource "aws_route_table" "rt_private" {
 # Create route association to private subnets
 resource "aws_route_table_association" "rta_private" {
   for_each = { for subnet in local.subnets_private_name :
-      subnet => lookup(aws_subnet.subnets, subnet, { id = "notfound" }).id
+    subnet => lookup(aws_subnet.subnets, subnet, { id = "notfound" }).id
   }
 
   subnet_id      = each.value

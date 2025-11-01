@@ -5,8 +5,8 @@ variable "prefix" {
 
 variable "region" {
   description = "AWS region, necessay if provider alias is used"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "tags" {
@@ -20,12 +20,12 @@ variable "tags" {
 
 variable "tgw_bgp_asn" {
   description = "Amazon side TGW BGP"
-  type    = string
-  default = "64515"
+  type        = string
+  default     = "64515"
 }
 
 variable "tgw_cidr" {
   description = "Amazon side TGW CIDR"
-  type    = string
-  default = "172.29.10.0/24"
+  type        = string
+  default     = "172.29.10.0/24"
 }

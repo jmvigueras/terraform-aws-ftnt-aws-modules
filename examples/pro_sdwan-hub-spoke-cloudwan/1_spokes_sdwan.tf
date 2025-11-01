@@ -22,7 +22,7 @@ module "eu_sdwan_vpc" {
 # Create FGT NIs
 module "eu_sdwan_nis" {
   for_each = { for i, v in local.eu_sdwan_spoke : i => v }
-  source = "../../modules/fgt_ni_sg"
+  source   = "../../modules/fgt_ni_sg"
 
   prefix             = "${local.prefix}-${each.value["id"]}"
   azs                = local.eu_sdwan_azs

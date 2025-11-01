@@ -32,32 +32,32 @@ variable "ni_id" {
 
 variable "private_ip" {
   description = "Private IP used to create Network Interface"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "instance_type" {
   description = "Server instance type"
-  type    = string
-  default = "t3.micro"
+  type        = string
+  default     = "t3.micro"
 }
 
 variable "subnet_id" {
   description = "Subnet ID, necessary if ni_id it is not provided to create NI"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "subnet_cidr" {
   description = "CIDR of the subnet, use to assign NI private IP"
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "config_eip" {
   description = "Boolean to enable/disable EIP configuration"
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "cidr_host" {
@@ -68,8 +68,8 @@ variable "cidr_host" {
 
 variable "security_groups" {
   description = "List of security groups to assign to NI"
-  type    = list(string)
-  default = null
+  type        = list(string)
+  default     = null
 }
 
 variable "keypair" {
