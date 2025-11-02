@@ -74,12 +74,12 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_max_connect_attachment"></a> [max\_connect\_attachment](#input\_max\_connect\_attachment) | Maximum TGW connect attachment over a VPC attachment | `number` | `3` | no |
-| <a name="input_peers"></a> [peers](#input\_peers) | List of map with Fortigate instance IPs and id | `list(map(string))` | <pre>[<br>  {<br>    "fgt_bgp_asn": "65000",<br>    "fgt_ip": "172.20.0.10",<br>    "id": "az1.fgt1",<br>    "inside_cidr": "169.254.101.0/29",<br>    "tgw_ip": "172.20.10.10"<br>  }<br>]</pre> | no |
+| <a name="input_peers"></a> [peers](#input\_peers) | List of map with Fortigate instance IPs and id | `list(map(string))` | <pre>[<br/>  {<br/>    "fgt_bgp_asn": "65000",<br/>    "fgt_ip": "172.20.0.10",<br/>    "id": "az1.fgt1",<br/>    "inside_cidr": "169.254.101.0/29",<br/>    "tgw_ip": "172.20.10.10"<br/>  }<br/>]</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
 | <a name="input_rt_association_id"></a> [rt\_association\_id](#input\_rt\_association\_id) | AWS TGW Route Table ID to associate the new VPC attachment | `string` | `null` | no |
 | <a name="input_rt_propagation_ids"></a> [rt\_propagation\_ids](#input\_rt\_propagation\_ids) | AWS TGW Route Table IDs where new attachment VPC CIDR will be propagated | `list(string)` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br>  "owner": "terraform",<br>  "project": "terraform-deploy"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br/>  "owner": "terraform",<br/>  "project": "terraform-deploy"<br/>}</pre> | no |
 | <a name="input_tgw_id"></a> [tgw\_id](#input\_tgw\_id) | AWS TGW ID | `string` | `null` | no |
 | <a name="input_vpc_attachment_id"></a> [vpc\_attachment\_id](#input\_vpc\_attachment\_id) | AWS VPC attachment ID | `string` | `null` | no |
 

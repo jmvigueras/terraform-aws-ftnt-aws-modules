@@ -81,7 +81,7 @@ No modules.
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR of the subnet, use to assign NI private IP | `string` | `null` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet ID, necessary if ni\_id it is not provided to create NI | `string` | `null` | no |
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"1"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br>  "project": "terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br/>  "project": "terraform"<br/>}</pre> | no |
 
 ## Outputs
 

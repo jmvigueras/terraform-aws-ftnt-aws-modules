@@ -51,13 +51,59 @@ module "example" {
 }
 ```
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
-* [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) >= 1.5.0
-* Check particulars requiriments for each deployment (AWS) 
 
-## Deployment
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
-# Support
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.33.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.1 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.5 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_fgt"></a> [fgt](#module\_fgt) | ../../modules/fgt | n/a |
+| <a name="module_fgt_config"></a> [fgt\_config](#module\_fgt\_config) | ../../modules/fgt_config | n/a |
+| <a name="module_fgt_nis"></a> [fgt\_nis](#module\_fgt\_nis) | ../../modules/fgt_ni_sg | n/a |
+| <a name="module_fgt_vpc"></a> [fgt\_vpc](#module\_fgt\_vpc) | ../../modules/vpc | n/a |
+| <a name="module_ns_fgt_private_routes_to_tgw"></a> [ns\_fgt\_private\_routes\_to\_tgw](#module\_ns\_fgt\_private\_routes\_to\_tgw) | ../../modules/vpc_routes | n/a |
+| <a name="module_ns_tgw_vpc_routes_to_fgt_ni"></a> [ns\_tgw\_vpc\_routes\_to\_fgt\_ni](#module\_ns\_tgw\_vpc\_routes\_to\_fgt\_ni) | ../../modules/vpc_routes | n/a |
+| <a name="module_tgw"></a> [tgw](#module\_tgw) | ../../modules/tgw | n/a |
+| <a name="module_tgw_attachment"></a> [tgw\_attachment](#module\_tgw\_attachment) | ../../modules/tgw_attachment | n/a |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_key_pair.keypair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
+| [local_file.ssh_private_key_pem](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
+| [random_string.api_key](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [random_string.vpn_psk](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_access_key"></a> [access\_key](#input\_access\_key) | Access and secret keys to your environment | `any` | n/a | yes |
+| <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | n/a | `any` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_fgt_ids"></a> [fgt\_ids](#output\_fgt\_ids) | ----------------------------------------------------------------------------------------------------- Outputs ----------------------------------------------------------------------------------------------------- |
+| <a name="output_fgt_ni_list"></a> [fgt\_ni\_list](#output\_fgt\_ni\_list) | n/a |
+<!-- END_TF_DOCS -->
+
+## Support
 This a personal repository with goal of testing and demo Fortinet solutions on the Cloud. No support is provided and must be used by your own responsability. Cloud Providers will charge for this deployments, please take it in count before proceed.
-
-

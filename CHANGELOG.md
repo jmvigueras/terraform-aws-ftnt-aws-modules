@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.5 - 2025-11-02
+- Update documentation README files
+- Fix code
+
+## v1.0.4 - 2025-11-01
+- Improved module basic_fgt-cluster: new fortiflex token list variable and extra config can be added
+
 ## v1.0.0 - 2025-06-06
 - Added new module to deploy FortiWEB VM with NLB
 - Added new module to deploy FortiAuthenticator with NLB

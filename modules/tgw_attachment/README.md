@@ -70,7 +70,7 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
 | <a name="input_rt_association_id"></a> [rt\_association\_id](#input\_rt\_association\_id) | AWS TGW Route Table ID to associate the new VPC attachment | `string` | `null` | no |
 | <a name="input_rt_propagation_ids"></a> [rt\_propagation\_ids](#input\_rt\_propagation\_ids) | AWS TGW Route Table IDs where new attachment VPC CIDR will be propagated | `list(string)` | `[]` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br>  "owner": "terraform",<br>  "project": "terraform-deploy"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br/>  "owner": "terraform",<br/>  "project": "terraform-deploy"<br/>}</pre> | no |
 | <a name="input_tgw_id"></a> [tgw\_id](#input\_tgw\_id) | AWS TGW ID to attach | `string` | `null` | no |
 | <a name="input_tgw_subnet_ids"></a> [tgw\_subnet\_ids](#input\_tgw\_subnet\_ids) | Subnet IDs used by TGW in VPC | `list(string)` | `null` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID to attach | `string` | `null` | no |

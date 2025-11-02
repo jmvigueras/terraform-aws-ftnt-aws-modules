@@ -59,7 +59,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br>  "owner": "terraform",<br>  "project": "terraform-deploy"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Attribute for tag Enviroment | `map(any)` | <pre>{<br/>  "owner": "terraform",<br/>  "project": "terraform-deploy"<br/>}</pre> | no |
 | <a name="input_tgw_bgp_asn"></a> [tgw\_bgp\_asn](#input\_tgw\_bgp\_asn) | Amazon side TGW BGP | `string` | `"64515"` | no |
 | <a name="input_tgw_cidr"></a> [tgw\_cidr](#input\_tgw\_cidr) | Amazon side TGW CIDR | `string` | `"172.29.10.0/24"` | no |
 

@@ -51,7 +51,7 @@ No modules.
 | <a name="input_gwlb_service_name"></a> [gwlb\_service\_name](#input\_gwlb\_service\_name) | GWLB service name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | List of subnet IDs that NLB will use | `map(string)` | `{}` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br>  "project": "terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br/>  "project": "terraform"<br/>}</pre> | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID where targets are deployed | `string` | n/a | yes |
 
 ## Outputs

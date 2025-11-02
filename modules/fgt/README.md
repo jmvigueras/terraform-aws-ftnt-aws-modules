@@ -60,7 +60,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_fgt_build"></a> [fgt\_build](#input\_fgt\_build) | Fortigate VM version (default build1575 -> FortiOS 7.2.6) | `string` | `"build1575"` | no |
+| <a name="input_fgt_build"></a> [fgt\_build](#input\_fgt\_build) | Fortigate VM version (default build2795 -> FortiOS 7.4.8) | `string` | `"build2795"` | no |
 | <a name="input_fgt_config"></a> [fgt\_config](#input\_fgt\_config) | Map of string peer each FGT instance user-data | `map(string)` | `{}` | no |
 | <a name="input_fgt_ni_list"></a> [fgt\_ni\_list](#input\_fgt\_ni\_list) | List of FortiGate details with NI IDs | `map(any)` | `{}` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Provide the instance type for the FortiGate instances | `string` | `"c6i.large"` | no |
@@ -68,7 +68,7 @@ No modules.
 | <a name="input_license_type"></a> [license\_type](#input\_license\_type) | License type to create Fortigate instnace, either byol or payg | `string` | `"payg"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br>  "project": "terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br/>  "project": "terraform"<br/>}</pre> | no |
 
 ## Outputs
 

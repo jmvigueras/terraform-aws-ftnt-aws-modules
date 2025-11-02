@@ -68,13 +68,13 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_cidr"></a> [admin\_cidr](#input\_admin\_cidr) | CIDR for the administrative access to Fortigates | `string` | `"0.0.0.0/0"` | no |
-| <a name="input_azs"></a> [azs](#input\_azs) | Availability zones where Fortigates will be deployed | `list(string)` | <pre>[<br>  "eu-west-1a",<br>  "eu-west-1c"<br>]</pre> | no |
+| <a name="input_azs"></a> [azs](#input\_azs) | Availability zones where Fortigates will be deployed | `list(string)` | <pre>[<br/>  "eu-west-1a",<br/>  "eu-west-1c"<br/>]</pre> | no |
 | <a name="input_cidr"></a> [cidr](#input\_cidr) | CIDR for the VPC | `string` | `"172.20.0.0/23"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
-| <a name="input_private_subnet_names"></a> [private\_subnet\_names](#input\_private\_subnet\_names) | Names for private subnets | `list(string)` | <pre>[<br>  "private",<br>  "tgw"<br>]</pre> | no |
-| <a name="input_public_subnet_names"></a> [public\_subnet\_names](#input\_public\_subnet\_names) | Names for public subnets | `list(string)` | <pre>[<br>  "public",<br>  "bastion"<br>]</pre> | no |
+| <a name="input_private_subnet_names"></a> [private\_subnet\_names](#input\_private\_subnet\_names) | Names for private subnets | `list(string)` | <pre>[<br/>  "private",<br/>  "tgw"<br/>]</pre> | no |
+| <a name="input_public_subnet_names"></a> [public\_subnet\_names](#input\_public\_subnet\_names) | Names for public subnets | `list(string)` | <pre>[<br/>  "public",<br/>  "bastion"<br/>]</pre> | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br>  "project": "terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br/>  "project": "terraform"<br/>}</pre> | no |
 
 ## Outputs
 

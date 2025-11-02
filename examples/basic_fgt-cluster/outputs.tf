@@ -76,14 +76,13 @@ output "fgt_ni_list" {
 #-------------------------------
 # Debugging 
 #-------------------------------
+/*
 output "fortiflex_token_map" {
   value = local.fortiflex_token_map
 }
-/*
 output "fgt_ni_ports_config" {
   value = module.fgt_nis.fgt_ports_config
 }
-
 output "ni_list" {
   value = module.fgt_nis.ni_list
 }

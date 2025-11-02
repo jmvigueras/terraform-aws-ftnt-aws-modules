@@ -63,7 +63,7 @@ No modules.
 | <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | fac username used for API key | `string` | `"admin"` | no |
 | <a name="input_cidr_host"></a> [cidr\_host](#input\_cidr\_host) | First IP number of the network to assign | `number` | `10` | no |
 | <a name="input_config_eip"></a> [config\_eip](#input\_config\_eip) | Boolean to enable/disable EIP configuration | `bool` | `true` | no |
-| <a name="input_fac_ami_id"></a> [fac\_ami\_id](#input\_fac\_ami\_id) | Map of AMI IDs peer region, version 6.2.1 | `map(string)` | <pre>{<br>  "eu-central-1": "ami-0783e89cad5ef71f9",<br>  "eu-north-1": "ami-0909de6351735a4da",<br>  "eu-south-1": "ami-09f8df2e0da94a587",<br>  "eu-south-2": "ami-0a7c47f369c1cf374",<br>  "eu-west-1": "ami-025cad1c66ca4834a",<br>  "eu-west-2": "ami-037e725edf43ddd8e",<br>  "eu-west-3": "ami-0c31451a94fa4787b"<br>}</pre> | no |
+| <a name="input_fac_ami_id"></a> [fac\_ami\_id](#input\_fac\_ami\_id) | Map of AMI IDs peer region, version 6.2.1 | `map(string)` | <pre>{<br/>  "eu-central-1": "ami-0783e89cad5ef71f9",<br/>  "eu-north-1": "ami-0909de6351735a4da",<br/>  "eu-south-1": "ami-09f8df2e0da94a587",<br/>  "eu-south-2": "ami-0a7c47f369c1cf374",<br/>  "eu-west-1": "ami-025cad1c66ca4834a",<br/>  "eu-west-2": "ami-037e725edf43ddd8e",<br/>  "eu-west-3": "ami-0c31451a94fa4787b"<br/>}</pre> | no |
 | <a name="input_fac_extra_config"></a> [fac\_extra\_config](#input\_fac\_extra\_config) | Extra config to add to bootstrap user-data | `string` | `""` | no |
 | <a name="input_fac_version"></a> [fac\_version](#input\_fac\_version) | FAC version | `string` | `"6.2.1"` | no |
 | <a name="input_iam_profile"></a> [iam\_profile](#input\_iam\_profile) | IAM profile to assing to the instance | `string` | `null` | no |
@@ -80,7 +80,7 @@ No modules.
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | CIDR of the subnet, use to assign NI private IP | `string` | `null` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet ID, necessary if ni\_id it is not provided to create NI | `string` | `null` | no |
 | <a name="input_suffix"></a> [suffix](#input\_suffix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"1"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br>  "project": "terraform"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags for created resources | `map(any)` | <pre>{<br/>  "project": "terraform"<br/>}</pre> | no |
 
 ## Outputs
 
