@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.6 - 2026-01-30
+- New module `fgt_sec_vpc` to deploy a complete inspection VPC
+- Update module example `basic_fgt-security-vpc`, simplified custom_vars variable
+
 ## v1.0.5 - 2025-11-02
 - Update documentation README files
 - Fix code
