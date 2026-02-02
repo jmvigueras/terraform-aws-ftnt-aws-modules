@@ -1,0 +1,93 @@
+#-----------------------------------------------------------------------------------------------------
+# Outputs
+#-----------------------------------------------------------------------------------------------------
+output "fgt" {
+  value = { for i, v in module.fgt.fgt_list :
+    v["fgt"] => {
+      fgt_pass = v["id"]
+      fgt_mgmt = var.fgt_cluster_type == "fgcp" ? (
+        try("https://${element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").mgmt_eips, 0)}:${var.admin_port}", "<private_ip>")
+        ) : (
+        try("https://${try(element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0), "")}:${var.admin_port}", "<private_ip>")
+      )
+      fgt_public = try(element(lookup(module.fgt_nis.fgt_ni_list, v["fgt"], "").public_eips, 0), "None")
+    }
+  }
+}
+
+output "api_key" {
+  value = local.fgt_api_key
+}
+
+output "keypair_name" {
+  value = aws_key_pair.keypair.key_name
+}
+
+output "ssh_private_key_pem" {
+  sensitive = true
+  value     = trimspace(tls_private_key.ssh.private_key_pem)
+}
+
+output "subnet_list" {
+  value = module.fgt_vpc.subnet_list
+}
+
+output "subnet_ids" {
+  value = module.fgt_vpc.subnet_ids
+}
+
+output "subnet_private_ids" {
+  value = module.fgt_vpc.subnet_private_ids
+}
+
+output "subnet_public_ids" {
+  value = module.fgt_vpc.subnet_public_ids
+}
+
+output "subnet_cidrs" {
+  value = module.fgt_vpc.subnet_cidrs
+}
+
+output "subnet_private_cidrs" {
+  value = module.fgt_vpc.subnet_private_cidrs
+}
+
+output "subnet_public_cidrs" {
+  value = module.fgt_vpc.subnet_public_cidrs
+}
+
+output "rt_ids" {
+  value = module.fgt_vpc.rt_ids
+}
+
+output "sg_ids" {
+  value = module.fgt_vpc.sg_ids
+}
+
+output "vpc_id" {
+  value = module.fgt_vpc.vpc_id
+}
+
+output "fgt_ids_map" {
+  value = module.fgt_nis.fgt_ids_map
+}
+
+output "fgt_ni_list" {
+  value = module.fgt_nis.fgt_ni_list
+}
+
+
+#-------------------------------
+# Debugging 
+#-------------------------------
+output "ni_list" {
+  value = module.fgt_nis.ni_list
+}
+/*
+output "fortiflex_token_map" {
+  value = local.fortiflex_token_map
+}
+output "fgt_ni_ports_config" {
+  value = module.fgt_nis.fgt_ports_config
+}
+*/

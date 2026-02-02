@@ -14,6 +14,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "vpc_attachment" {
   transit_gateway_default_route_table_association = var.default_rt_association
   transit_gateway_default_route_table_propagation = var.default_rt_propagation
 
+  ipv6_support = var.ipv6_support
+
   tags = merge(
     { Name = "${var.prefix}-vpc-attach" },
     var.tags

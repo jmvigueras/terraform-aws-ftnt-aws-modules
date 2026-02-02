@@ -11,6 +11,8 @@ resource "aws_vpc_endpoint" "gwlb_endpoints" {
   vpc_endpoint_type = "GatewayLoadBalancer"
   vpc_id            = var.vpc_id
 
+  ip_address_type = var.ip_address_type
+
   tags = merge(
     { Name = "${var.prefix}-gwlbe-${each.key}" },
     var.tags

@@ -57,6 +57,12 @@ variable "appliance_mode_support" {
   default     = "enable"
 }
 
+variable "ipv6_support" {
+  description = "Enable IPv6 support for the attachment"
+  type        = string
+  default     = "disable"
+}
+
 variable "tags" {
   description = "Attribute for tag Enviroment"
   type        = map(any)
