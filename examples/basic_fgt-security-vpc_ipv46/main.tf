@@ -31,7 +31,7 @@ variable "custom_vars" {
 # FGT VPC Security deployment
 #--------------------------------------------------------------------------------------------------------------
 module "fgt" {
-  source = "../../modules/fgt_sec_vpc"
+  source = "../../modules/fgt_sec_vpc_ipv46"
 
   prefix = var.custom_vars["prefix"]
 
@@ -79,3 +79,18 @@ data "aws_availability_zones" "available" {
 locals {
   azs = slice(data.aws_availability_zones.available.names, 0, var.custom_vars["number_azs"])
 }
+
+#-------------------------------------------------------------------------------------------------------------
+# Debugging Outputs
+#-------------------------------------------------------------------------------------------------------------
+/*
+output "debug_vpc_subnet_cidrs" {
+  value = module.fgt.subnet_cidrs
+}
+output "debug_vpc_subnet_list" {
+  value = module.fgt.subnet_list
+}
+output "debug_fgt_ni_list" {
+  value = module.fgt.ni_list
+}
+*/

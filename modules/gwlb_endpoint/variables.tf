@@ -28,3 +28,12 @@ variable "gwlb_service_name" {
   type        = string
 }
 
+variable "ip_address_type" {
+  description = "IP address type for the GWLB endpoints"
+  type        = string
+  validation {
+    condition     = contains(["ipv4", "ipv6", "dualstack"], var.ip_address_type)
+    error_message = "ip_address_type must be either 'ipv4', 'ipv6', or 'dualstack'."
+  }
+  default = "ipv4"
+}
