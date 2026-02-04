@@ -8,7 +8,7 @@ variable "custom_vars" {
     region                     = optional(string, "eu-west-1")
     number_azs                 = optional(number, 2)
     fgt_number_peer_az         = optional(number, 1)
-    fgt_build                  = optional(string, "build2878")
+    fgt_build                  = optional(string, "build3652")
     license_type               = optional(string, "payg")
     fortiflex_tokens           = optional(list(string), [])
     fgt_size                   = optional(string, "c6i.xlarge")
@@ -86,7 +86,7 @@ module "spoke_vpc" {
   cidr = var.custom_vars["spoke_vpc_cidr"]
 
   public_subnet_names  = []
-  private_subnet_names = ["tgw","vms"]
+  private_subnet_names = ["tgw", "vms"]
 }
 # Crate spoke VM
 module "spoke_vm" {
