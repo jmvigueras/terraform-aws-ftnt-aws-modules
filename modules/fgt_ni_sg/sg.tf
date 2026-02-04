@@ -10,34 +10,20 @@ resource "aws_security_group" "sg_public" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 8 # the ICMP type number for 'Echo'
-    to_port     = 0 # the ICMP code
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 0 # the ICMP type number for 'Echo Reply'
-    to_port     = 0 # the ICMP code
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(

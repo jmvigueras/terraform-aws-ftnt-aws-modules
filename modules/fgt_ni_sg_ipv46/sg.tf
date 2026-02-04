@@ -10,34 +10,20 @@ resource "aws_security_group" "sg_public" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 8 # the ICMP type number for 'Echo'
-    to_port     = 0 # the ICMP code
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 0 # the ICMP type number for 'Echo Reply'
-    to_port     = 0 # the ICMP code
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(
@@ -49,22 +35,24 @@ resource "aws_security_group" "sg_private" {
   for_each = { for k, v in var.fgt_subnet_tags : k => v if strcontains(k, local.tag_private) }
 
   name        = "${var.prefix}-sg-${each.key}"
-  description = "Allow all connections from RFC1918"
+  description = "Allow all connections from RFC1918 and RFC2462"
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "Allow all traffic inbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    description      = "Allow all traffic inbound"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   egress {
-    description = "Allow all traffic outbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all traffic outbound ipv46"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(
@@ -112,10 +100,11 @@ resource "aws_security_group" "sg_mgmt_ha" {
     cidr_blocks = ["${var.admin_cidr}"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(

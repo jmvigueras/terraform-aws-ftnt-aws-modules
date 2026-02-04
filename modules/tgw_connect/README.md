@@ -85,7 +85,5 @@ No modules.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | List of ID of the AWS Transit Gateway VPC Attachment connect |
+No outputs.
 <!-- END_TF_DOCS -->

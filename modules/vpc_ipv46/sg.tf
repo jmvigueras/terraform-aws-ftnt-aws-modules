@@ -4,18 +4,20 @@ resource "aws_security_group" "sg_allow_all" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    description = "Allow all"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   egress {
-    description = "Allow all"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "Allow all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(
@@ -30,16 +32,18 @@ resource "aws_security_group" "sg_allow_admin_cidr_rfc1918" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["${var.admin_cidr}", "192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    from_port        = 0
+    to_port          = 65535
+    protocol         = "tcp"
+    cidr_blocks      = ["${var.admin_cidr}", "192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "udp"
-    cidr_blocks = ["${var.admin_cidr}", "192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    from_port        = 0
+    to_port          = 65535
+    protocol         = "udp"
+    cidr_blocks      = ["${var.admin_cidr}", "192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+    ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
     from_port   = 8 # the ICMP type number for 'Echo'
@@ -48,16 +52,17 @@ resource "aws_security_group" "sg_allow_admin_cidr_rfc1918" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = 0 # the ICMP type number for 'Echo Reply'
-    to_port     = 0 # the ICMP code
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0 # the ICMP type number for 'Echo Reply'
+    to_port          = 0 # the ICMP code
+    protocol         = "icmpv6"
+    ipv6_cidr_blocks = ["::/0"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = merge(

@@ -138,28 +138,25 @@ module "fgt-cluster-fgsp-1az" {
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.33.0 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.4.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.5 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_fgt"></a> [fgt](#module\_fgt) | ../../modules/fgt | n/a |
-| <a name="module_fgt_config"></a> [fgt\_config](#module\_fgt\_config) | ../../modules/fgt_config | n/a |
-| <a name="module_fgt_nis"></a> [fgt\_nis](#module\_fgt\_nis) | ../../modules/fgt_ni_sg | n/a |
-| <a name="module_fgt_vpc"></a> [fgt\_vpc](#module\_fgt\_vpc) | ../../modules/vpc | n/a |
-| <a name="module_gwlb"></a> [gwlb](#module\_gwlb) | ../../modules/gwlb | n/a |
+| <a name="module_fgt"></a> [fgt](#module\_fgt) | ../fgt | n/a |
+| <a name="module_fgt_config"></a> [fgt\_config](#module\_fgt\_config) | ../fgt_config | n/a |
+| <a name="module_fgt_nis"></a> [fgt\_nis](#module\_fgt\_nis) | ../fgt_ni_sg | n/a |
+| <a name="module_fgt_vpc"></a> [fgt\_vpc](#module\_fgt\_vpc) | ../vpc | n/a |
+| <a name="module_gwlb"></a> [gwlb](#module\_gwlb) | ../gwlb | n/a |
 
 ## Resources
 
@@ -169,7 +166,6 @@ module "fgt-cluster-fgsp-1az" {
 | [aws_key_pair.keypair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_nat_gateway.nat_gw_mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_route.nat_gw_mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [local_file.ssh_private_key_pem](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [random_string.api_key](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [random_string.vpn_psk](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |

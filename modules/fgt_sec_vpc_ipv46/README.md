@@ -138,28 +138,25 @@ module "fgt-cluster-fgsp-1az" {
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.33.0 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.4.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.5 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_fgt"></a> [fgt](#module\_fgt) | ../../modules/fgt | n/a |
-| <a name="module_fgt_config"></a> [fgt\_config](#module\_fgt\_config) | ../../modules/fgt_config | n/a |
-| <a name="module_fgt_nis"></a> [fgt\_nis](#module\_fgt\_nis) | ../../modules/fgt_ni_sg | n/a |
-| <a name="module_fgt_vpc"></a> [fgt\_vpc](#module\_fgt\_vpc) | ../../modules/vpc | n/a |
-| <a name="module_gwlb"></a> [gwlb](#module\_gwlb) | ../../modules/gwlb | n/a |
+| <a name="module_fgt"></a> [fgt](#module\_fgt) | ../fgt | n/a |
+| <a name="module_fgt_config"></a> [fgt\_config](#module\_fgt\_config) | ../fgt_config_ipv46 | n/a |
+| <a name="module_fgt_nis"></a> [fgt\_nis](#module\_fgt\_nis) | ../fgt_ni_sg_ipv46 | n/a |
+| <a name="module_fgt_vpc"></a> [fgt\_vpc](#module\_fgt\_vpc) | ../vpc_ipv46 | n/a |
+| <a name="module_gwlb"></a> [gwlb](#module\_gwlb) | ../gwlb | n/a |
 
 ## Resources
 
@@ -169,7 +166,6 @@ module "fgt-cluster-fgsp-1az" {
 | [aws_key_pair.keypair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_nat_gateway.nat_gw_mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_route.nat_gw_mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [local_file.ssh_private_key_pem](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [random_string.api_key](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [random_string.vpn_psk](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
@@ -211,11 +207,13 @@ module "fgt-cluster-fgsp-1az" {
 | <a name="output_fgt_ids_map"></a> [fgt\_ids\_map](#output\_fgt\_ids\_map) | n/a |
 | <a name="output_fgt_ni_list"></a> [fgt\_ni\_list](#output\_fgt\_ni\_list) | n/a |
 | <a name="output_keypair_name"></a> [keypair\_name](#output\_keypair\_name) | n/a |
+| <a name="output_ni_list"></a> [ni\_list](#output\_ni\_list) | ------------------------------- Debugging ------------------------------- |
 | <a name="output_rt_ids"></a> [rt\_ids](#output\_rt\_ids) | n/a |
 | <a name="output_sg_ids"></a> [sg\_ids](#output\_sg\_ids) | n/a |
 | <a name="output_ssh_private_key_pem"></a> [ssh\_private\_key\_pem](#output\_ssh\_private\_key\_pem) | n/a |
 | <a name="output_subnet_cidrs"></a> [subnet\_cidrs](#output\_subnet\_cidrs) | n/a |
 | <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | n/a |
+| <a name="output_subnet_list"></a> [subnet\_list](#output\_subnet\_list) | n/a |
 | <a name="output_subnet_private_cidrs"></a> [subnet\_private\_cidrs](#output\_subnet\_private\_cidrs) | n/a |
 | <a name="output_subnet_private_ids"></a> [subnet\_private\_ids](#output\_subnet\_private\_ids) | n/a |
 | <a name="output_subnet_public_cidrs"></a> [subnet\_public\_cidrs](#output\_subnet\_public\_cidrs) | n/a |

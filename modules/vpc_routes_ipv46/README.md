@@ -57,9 +57,13 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_route.r_private_to_core_net_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.r_private_to_core_net_default_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.r_private_to_gwlb_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.r_private_to_gwlb_default_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.r_private_to_ni_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.r_private_to_ni_default_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.r_private_to_tgw_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.r_private_to_tgw_default_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 
 ## Inputs
 
@@ -69,6 +73,7 @@ No modules.
 | <a name="input_core_network_arn"></a> [core\_network\_arn](#input\_core\_network\_arn) | AWS Core Network ARN to use in routes | `string` | `null` | no |
 | <a name="input_core_network_rt_ids"></a> [core\_network\_rt\_ids](#input\_core\_network\_rt\_ids) | List of Route Tables ID to add private routes to a Core Network Endpoint | `map(string)` | `{}` | no |
 | <a name="input_destination_cidr_block"></a> [destination\_cidr\_block](#input\_destination\_cidr\_block) | Default destination block of created new routes | `string` | `"0.0.0.0/0"` | no |
+| <a name="input_destination_cidr_block_ipv6"></a> [destination\_cidr\_block\_ipv6](#input\_destination\_cidr\_block\_ipv6) | Default destination block of created new routes | `string` | `"::/0"` | no |
 | <a name="input_gwlb_rt_ids"></a> [gwlb\_rt\_ids](#input\_gwlb\_rt\_ids) | List of Route Tables ID to add private routes to a GWLB Endpoint | `map(string)` | `{}` | no |
 | <a name="input_gwlbe_id"></a> [gwlbe\_id](#input\_gwlbe\_id) | AWS GWLB endpoint ID to use in routes | `string` | `null` | no |
 | <a name="input_ni_id"></a> [ni\_id](#input\_ni\_id) | AWS instance NI ID to use in routes | `string` | `null` | no |

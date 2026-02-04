@@ -8,28 +8,20 @@ Create a VPC with provided subnet names and default route tables and security gr
 > Check default values for input varibles if you don't want to provide all.
 
 ```hcl
-locals {
-  prefix      = "test"
-  region      = "eu-west-1"
-  azs         = ["eu-west-1a","eu-west-1b"]
-  admin_cidr  = "0.0.0.0/0"
+module "fgt_vpc" {
+  source = "../vpc_ipv46"
 
-  public_subnet_names  = ["public", "mgmt", "bastion"]
-  private_subnet_names = ["private", "tgw"]
-}
+  prefix     = var.prefix
+  admin_cidr = var.admin_cidr
+  region     = var.region
+  azs        = var.azs
 
-module "example" {
-  source = "../aws_vpc"
-
-  prefix     = local.prefix
-  admin_cidr = local.admin_cidr
-  region     = local.region
-  azs        = local.azs
-
-  cidr = local.vpc_cidr
+  cidr = var.fgt_vpc_cidr
 
   public_subnet_names  = local.public_subnet_names
   private_subnet_names = local.private_subnet_names
+
+  tags = var.tags
 }
 ```
 
@@ -54,6 +46,7 @@ No modules.
 |------|------|
 | [aws_internet_gateway.igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_route.rt_public_r_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.rt_public_r_default_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route_table.rt_private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.rt_public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table_association.rta_private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
@@ -70,6 +63,8 @@ No modules.
 | <a name="input_admin_cidr"></a> [admin\_cidr](#input\_admin\_cidr) | CIDR for the administrative access to Fortigates | `string` | `"0.0.0.0/0"` | no |
 | <a name="input_azs"></a> [azs](#input\_azs) | Availability zones where Fortigates will be deployed | `list(string)` | <pre>[<br/>  "eu-west-1a",<br/>  "eu-west-1c"<br/>]</pre> | no |
 | <a name="input_cidr"></a> [cidr](#input\_cidr) | CIDR for the VPC | `string` | `"172.20.0.0/23"` | no |
+| <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Enable IPv6 dual-stack for VPC and subnets. If true, assigns an AWS global IPv6 CIDR block unless 'ipv6\_cidr\_block' is provided. | `bool` | `true` | no |
+| <a name="input_ipv6_cidr_block"></a> [ipv6\_cidr\_block](#input\_ipv6\_cidr\_block) | Optional: IPv6 CIDR block for the VPC. If not set and enable\_ipv6 is true, AWS assigns a global IPv6 CIDR block automatically. | `string` | `null` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_private_subnet_names"></a> [private\_subnet\_names](#input\_private\_subnet\_names) | Names for private subnets | `list(string)` | <pre>[<br/>  "private",<br/>  "tgw"<br/>]</pre> | no |
 | <a name="input_public_subnet_names"></a> [public\_subnet\_names](#input\_public\_subnet\_names) | Names for public subnets | `list(string)` | <pre>[<br/>  "public",<br/>  "bastion"<br/>]</pre> | no |
@@ -86,11 +81,14 @@ No modules.
 | <a name="output_sg_ids"></a> [sg\_ids](#output\_sg\_ids) | IDs of security groups |
 | <a name="output_subnet_arns"></a> [subnet\_arns](#output\_subnet\_arns) | List of subnets ARNs |
 | <a name="output_subnet_cidrs"></a> [subnet\_cidrs](#output\_subnet\_cidrs) | CIDRs of the subnets |
+| <a name="output_subnet_cidrs_ipv6"></a> [subnet\_cidrs\_ipv6](#output\_subnet\_cidrs\_ipv6) | IPv6 CIDRs of the subnets |
 | <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | List of subnets ID |
 | <a name="output_subnet_list"></a> [subnet\_list](#output\_subnet\_list) | List of subnets |
 | <a name="output_subnet_private_cidrs"></a> [subnet\_private\_cidrs](#output\_subnet\_private\_cidrs) | CIDRs of private subnets |
+| <a name="output_subnet_private_cidrs_ipv6"></a> [subnet\_private\_cidrs\_ipv6](#output\_subnet\_private\_cidrs\_ipv6) | IPv6 CIDRs of private subnets |
 | <a name="output_subnet_private_ids"></a> [subnet\_private\_ids](#output\_subnet\_private\_ids) | IDs of private subnets |
 | <a name="output_subnet_public_cidrs"></a> [subnet\_public\_cidrs](#output\_subnet\_public\_cidrs) | CIDRs of public subnets |
+| <a name="output_subnet_public_cidrs_ipv6"></a> [subnet\_public\_cidrs\_ipv6](#output\_subnet\_public\_cidrs\_ipv6) | IPv6 CIDRs of public subnets |
 | <a name="output_subnet_public_ids"></a> [subnet\_public\_ids](#output\_subnet\_public\_ids) | IDs of public subnets |
 | <a name="output_subnets"></a> [subnets](#output\_subnets) | Description of the subnets |
 | <a name="output_vpc_arn"></a> [vpc\_arn](#output\_vpc\_arn) | ARN of the created VPC |

@@ -66,6 +66,7 @@ No modules.
 | <a name="input_appliance_mode_support"></a> [appliance\_mode\_support](#input\_appliance\_mode\_support) | Attachment mode used for NVA | `string` | `"enable"` | no |
 | <a name="input_default_rt_association"></a> [default\_rt\_association](#input\_default\_rt\_association) | Enable TGW default route table association | `bool` | `false` | no |
 | <a name="input_default_rt_propagation"></a> [default\_rt\_propagation](#input\_default\_rt\_propagation) | Enable TGW default route table association | `bool` | `false` | no |
+| <a name="input_ipv6_support"></a> [ipv6\_support](#input\_ipv6\_support) | Enable IPv6 support for the attachment | `string` | `"disable"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Provide a common tag prefix value that will be used in the name tag for all resources | `string` | `"terraform"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, necessay if provider alias is used | `string` | `null` | no |
 | <a name="input_rt_association_id"></a> [rt\_association\_id](#input\_rt\_association\_id) | AWS TGW Route Table ID to associate the new VPC attachment | `string` | `null` | no |

@@ -212,6 +212,7 @@ No modules.
 | [template_file.config_gwlb](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_interfaces](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_route](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [template_file.config_route6](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_s2s](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_sdn](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.config_sdwan](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
@@ -272,6 +273,7 @@ No modules.
 | <a name="input_s2s_peers"></a> [s2s\_peers](#input\_s2s\_peers) | Details for site to site connections beteween fortigates | `list(map(string))` | <pre>[<br/>  {<br/>    "bgp_asn_remote": "65000",<br/>    "dpd_retryinterval": "5",<br/>    "hck_ip": "10.10.10.2",<br/>    "id": "s2s",<br/>    "ike_version": "2",<br/>    "network_id": "11",<br/>    "remote_cidr": "172.20.0.0/24",<br/>    "remote_gw": "11.11.11.22",<br/>    "vpn_cidr": "10.10.10.0/27",<br/>    "vpn_local_ip": "10.10.10.1",<br/>    "vpn_port": "public",<br/>    "vpn_psk": "secret-key",<br/>    "vpn_remote_ip": "10.10.10.2"<br/>  }<br/>]</pre> | no |
 | <a name="input_spoke"></a> [spoke](#input\_spoke) | Default parameters to configure a site | `map(any)` | <pre>{<br/>  "bgp_asn": "65000",<br/>  "cidr": "172.30.0.0/23",<br/>  "id": "fgt"<br/>}</pre> | no |
 | <a name="input_static_route_cidrs"></a> [static\_route\_cidrs](#input\_static\_route\_cidrs) | List of CIDRs to add as static routes | `list(string)` | `null` | no |
+| <a name="input_static_route_cidrs6"></a> [static\_route\_cidrs6](#input\_static\_route\_cidrs6) | List of CIDRs IPv6 to add as static routes | `list(string)` | `null` | no |
 | <a name="input_tgw_gre_peer"></a> [tgw\_gre\_peer](#input\_tgw\_gre\_peer) | Details to create a GRE tunnel to a AWS TGW | `map(string)` | <pre>{<br/>  "gre_name": "gre-to-tgw",<br/>  "inside_cidr": "169.254.101.0/29",<br/>  "route_map_in": "",<br/>  "route_map_out": "",<br/>  "tgw_bgp_asn": "65011",<br/>  "tgw_ip": "172.20.10.10"<br/>}</pre> | no |
 | <a name="input_vxlan_peers"></a> [vxlan\_peers](#input\_vxlan\_peers) | Details for vxlan connections beteween fortigates | `list(map(string))` | <pre>[<br/>  {<br/>    "bgp_asn": "65000",<br/>    "external_ip": "11.11.11.22,11.11.11.23",<br/>    "local_ip": "10.10.30.1",<br/>    "remote_ip": "10.10.30.2,10.10.30.3",<br/>    "route_map_in": "",<br/>    "route_map_out": "",<br/>    "vni": "1100",<br/>    "vxlan_port": "private"<br/>  }<br/>]</pre> | no |
 

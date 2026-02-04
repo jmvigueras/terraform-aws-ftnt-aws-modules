@@ -40,99 +40,57 @@ This example demonstrates how to deploy FortiGate clusters on AWS using the `ftn
 ## Module use
 
 ```hcl
+# Call the module with 1 input "custom_vars"
+
+module "fgt-vpc-sec" {
+  source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-security-vpc"
+  version = "1.0.7"
+
+  custom_vars = var.custom_vars
+}
+
+# custom_vars examples.
+
 # Example 1: FGT cluster FGCP in 1 AZ with 2 members
 
-module "fgt-cluster-fgcp-1az" {
-  source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-security-vpc"
-  version = "1.0.16"
-
-  prefix = "fgt-cluster-fgcp-1az"
-
-  region = "eu-west-1"
-  azs    = ["eu-west-1a"]
-
+custom_vars = {
+  prefix      = optional(string, "fgt-sec-1az-fgcp")
+  region      = optional(string, "eu-west-1")
+  
+  number_azs         = 1
   fgt_number_peer_az = 2
-  fgt_cluster_type = "fgcp"
 
   license_type  = "byol"
-  instance_type = "c6i.large"
-  fgt_build     = "build2795"
 
   fgt_vpc_cidr = "10.10.0.0/24"
-
-  public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw","protected"]
 }
 
-# Example 2: FGT cluster FGCP in 2 AZ with 2 members
- 
-module "fgt-cluster-fgcp-2az" {
-  source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-security-vpc"
-  version = "1.0.16"
+# Example 2: FGT cluster FGCP in 2 AZ with 2 members with no EIP at Management interface
 
-  prefix = "fgt-cluster-fgcp-1az"
+custom_vars = {
+  prefix      = optional(string, "fgt-sec-2az-fgcp")
+  region      = optional(string, "eu-west-1")
+  number_azs  = 2
 
-  region = "eu-west-1"
-  azs    = ["eu-west-1a", "eu-west-1b"]
-
-  fgt_number_peer_az = 1
-  fgt_cluster_type = "fgcp"
-
-  license_type  = "byol"
-  instance_type = "c6i.large"
-  fgt_build     = "build2795"
-
-  fgt_vpc_cidr = "10.10.0.0/24"
-
-  public_subnet_names_extra = ["bastion"]
-  private_subnet_names_extra = ["tgw","protected"]
+  config_mgmt_nat_gateway = true
+  config_mgmt_private     = true
 }
 
-# Example 3: FGT cluster FGSP in 3 AZ with 3 members with GWLB
- 
-module "fgt-cluster-fgsp-3az" {
-  source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-security-vpc"
-  version = "1.0.16"
+# Example 3: FGT cluster FGSP in 3 AZ with 3 members
 
-  prefix = "fgt-cluster-fgsp-3az"
+custom_vars = {
+  prefix      = optional(string, "fgt-sec-2az-fgsp")
+  region      = optional(string, "eu-west-1")
+  number_azs  = 3
 
-  region = "eu-west-1"
-  azs    = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-
-  fgt_number_peer_az = 1
   fgt_cluster_type = "fgsp"
+  fgt_size = "c6i.large"
 
   license_type  = "byol"
-  instance_type = "c6i.large"
-  fgt_build     = "build2795"
 
-  fgt_vpc_cidr = "10.10.0.0/23"
-
-  config_gwlb = true
+  config_gwlb = "true"
 }
 
-# Example 4: FGT cluster FGSP with GWLB
- 
-module "fgt-cluster-fgsp-1az" {
-  source  = "jmvigueras/ftnt-aws-modules/aws//examples/basic_fgt-security-vpc"
-  version = "1.0.16"
-
-  prefix = "fgt-cluster-fgcp-1az"
-
-  region = "eu-west-1"
-  azs    = ["eu-west-1a"]
-
-  fgt_number_peer_az = 2
-  fgt_cluster_type = "fgsp"
-
-  license_type  = "byol"
-  instance_type = "c6i.large"
-  fgt_build     = "build2795"
-
-  fgt_vpc_cidr = "10.10.0.0/24"
-
-  config_gwlb = true
-}
 ```
 
 <!-- BEGIN_TF_DOCS -->
@@ -144,7 +102,9 @@ module "fgt-cluster-fgsp-1az" {
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.100.0 |
 
 ## Modules
 
@@ -154,19 +114,21 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_custom_vars"></a> [custom\_vars](#input\_custom\_vars) | Custom variables | `map` | <pre>{<br/>  "azs": [<br/>    "eu-west-1a",<br/>    "eu-west-1b"<br/>  ],<br/>  "config_gwlb": false,<br/>  "config_mgmt_nat_gateway": false,<br/>  "config_mgmt_private": false,<br/>  "fgt_build": "build2795",<br/>  "fgt_cluster_type": "fgcp",<br/>  "fgt_number_peer_az": 1,<br/>  "fgt_size": "c6i.xlarge",<br/>  "fgt_vpc_cidr": "172.10.0.0/24",<br/>  "license_type": "byol",<br/>  "prefix": "fgt-vpc-sec",<br/>  "private_subnet_names_extra": [<br/>    "tgw"<br/>  ],<br/>  "public_subnet_names_extra": [],<br/>  "region": "eu-west-1",<br/>  "tags": {<br/>    "Deploy": "Fortigate PRO",<br/>    "Project": "Fortigate Produccion 2AZ"<br/>  }<br/>}</pre> | no |
+| <a name="input_custom_vars"></a> [custom\_vars](#input\_custom\_vars) | Custom variables | <pre>object({<br/>    prefix                     = optional(string, "fgt-vpc-sec")<br/>    region                     = optional(string, "eu-west-1")<br/>    number_azs                 = optional(number, 2)<br/>    fgt_number_peer_az         = optional(number, 1)<br/>    fgt_build                  = optional(string, "build3652")<br/>    license_type               = optional(string, "payg")<br/>    fortiflex_tokens           = optional(list(string), [])<br/>    fgt_size                   = optional(string, "c6i.xlarge")<br/>    fgt_cluster_type           = optional(string, "fgcp")<br/>    fgt_vpc_cidr               = optional(string, "172.16.0.0/24")<br/>    public_subnet_names_extra  = optional(list(string), [])<br/>    private_subnet_names_extra = optional(list(string), ["tgw"])<br/>    config_mgmt_nat_gateway    = optional(bool, false)<br/>    config_mgmt_private        = optional(bool, false)<br/>    config_gwlb                = optional(bool, false)<br/>    tags = optional(map(string), {<br/>      "Deploy"  = "Fortigate Security VPC"<br/>      "Project" = "Fortigate Terraform AWS Modules"<br/>    })<br/>  })</pre> | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_fgt"></a> [fgt](#output\_fgt) | ------------------------------- Outputs ------------------------------- |
+| <a name="output_fgt"></a> [fgt](#output\_fgt) | ------------------------------------------------------------------------------------------------------------- Outputs ------------------------------------------------------------------------------------------------------------- |
 | <a name="output_fgt_api_key"></a> [fgt\_api\_key](#output\_fgt\_api\_key) | n/a |
 <!-- END_TF_DOCS -->
 

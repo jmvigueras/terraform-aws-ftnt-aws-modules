@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.8 - 2026-02-04
+- Update README.md files with terraform markdown
+- Clean and fix bugs
+
+## v1.0.7 - 2026-02-02
+- New modules to support IPv46 deployments, dualstack.
+- Modules: `fgt_config_ipv46`, `fgt_ni_sg_ipv46`, `fgt_sec_vpc_ipv46`, `vpc_ipv46`, `vpc_routes_ipv46`
+
 ## v1.0.6 - 2026-01-30
 - New module `fgt_sec_vpc` to deploy a complete inspection VPC
 - Update module example `basic_fgt-security-vpc`, simplified custom_vars variable

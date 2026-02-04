@@ -208,10 +208,9 @@ locals {
         mask = ni["subnet_mask"]
         gw   = cidrhost(ni["subnet_cidr"], 1)
         tag  = join(".", slice(split(".", ni["subnet_tag"]), 1, 2))
-        ipv6 = (
-          length(aws_network_interface.nis["${ni["az"]}.${ni["fgt"]}.${ni["subnet_tag"]}"].ipv6_addresses) > 0
-          ? one(aws_network_interface.nis["${ni["az"]}.${ni["fgt"]}.${ni["subnet_tag"]}"].ipv6_addresses)
-          : ""
+        ipv6 = try(
+          aws_network_interface.nis["${ni["az"]}.${ni["fgt"]}.${ni["subnet_tag"]}"].ipv6_addresses[0],
+          ""
         )
         subnet_cidr_ipv6 = ni["subnet_cidr_ipv6"]
         mask_ipv6 = (
